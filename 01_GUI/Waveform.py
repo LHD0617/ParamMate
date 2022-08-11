@@ -12,11 +12,11 @@ import sys
 
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtChart import QLineSeries, QChartView, QChart, QSplineSeries, QBarSeries, QPieSeries, QValueAxis, QBarSet
-from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QGroupBox
 
 SeriesTypeStrList = ('折线图', '样条线图', '条形图')
-DataTypeStrList = ('uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'float', 'double')
+DataTypeStrList = ('uint8', 'uint16', 'uint32', 'int8', 'int16', 'int32', 'float')
 
 MaxDataLen = 800  # 最大数据量当数据长度大于该数值将会清空数据
 
@@ -73,11 +73,11 @@ class MyWaveform(QGroupBox):
         self.graphicsView.setObjectName("graphicsView")
         self.setTitle(Name)
         self.gridLayout.addWidget(self.graphicsView, 1, 0, 1, 6)
-        if DataType & 0x08:
-            self.UnitChannelSize = 4 + DataType & 0x01 * 4
+        if DataType == 6:
+            self.UnitChannelSize = 4
             self.AxisY.setLabelFormat('%f')
         else:
-            self.UnitChannelSize = 0x01 << (DataType & 0x03)
+            self.UnitChannelSize = 0x01 << (DataType % 3)
             self.AxisY.setLabelFormat('%d')
 
     def setupUi(self, From):
@@ -260,6 +260,7 @@ class MyWaveform(QGroupBox):
         self.ChannelsLab.setText("通道数：%d" % len(self.SeriesList))
 
     def InputData(self, Data: bytes):
+        print(Data)
         if len(Data) == self.Channels * self.UnitChannelSize:
             # 获取数据并添加到各个通道
             for i in range(self.Channels):
@@ -283,13 +284,14 @@ class MyWaveform(QGroupBox):
                 # 达到最大数据量清除缓存
                 if self.SysDataCount % MaxDataLen == 0 and self.SysDataCount > MaxDataLen:
                     self.SeriesList[i].removePoints(0, MaxDataLen)
-            # X轴显示范围设置
-            if self.SeriesType == 0 or self.SeriesType == 1:
-                self.SetXAxisRange()
+
             # Y轴显示范围
             self.SetYAxisRange()
-            # 计数+1
-            self.SysDataCount += 1
+            if self.SeriesType == 0 or self.SeriesType == 1:
+                # X轴显示范围设置
+                self.SetXAxisRange()
+                # 计数+1
+                self.SysDataCount += 1
         else:
             print(len(Data), self.Channels * self.UnitChannelSize)
 
