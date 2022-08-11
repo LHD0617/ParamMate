@@ -1,0 +1,9 @@
+.\objects\pm_commprot.o: ..\STM32F103_RTThread_Drive\ParamMate\PM_CommProt.c
+.\objects\pm_commprot.o: ..\STM32F103_RTThread_Drive\ParamMate\ParamMate.h
+.\objects\pm_commprot.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\pm_commprot.o: ..\STM32F103_RTThread_Drive\ParamMate\PM_CommProt.h
+.\objects\pm_commprot.o: ..\STM32F103_RTThread_Drive\ParamMate\ParamMate.h
+.\objects\pm_commprot.o: ..\STM32F103_RTThread_Drive\ParamMate\PM_Waveform.h
+.\objects\pm_commprot.o: ..\STM32F103_RTThread_Drive\ParamMate\PM_Image.h
+.\objects\pm_commprot.o: ..\STM32F103_RTThread_Drive\ParamMate\PM_Param.h
+.\objects\pm_commprot.o: ..\STM32F103_RTThread_Drive\ParamMate\PM_Window.h

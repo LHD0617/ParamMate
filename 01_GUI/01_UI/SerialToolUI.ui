@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SerialTool</class>
+ <widget class="QWidget" name="SerialTool">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>200</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QGroupBox" name="ConfigureGbox">
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>配串口置</string>
+     </property>
+     <layout class="QGridLayout" name="ConfigureGboxLayout">
+      <property name="verticalSpacing">
+       <number>20</number>
+      </property>
+      <item row="1" column="0">
+       <widget class="QLabel" name="BaudLab">
+        <property name="text">
+         <string>波特率：</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="DatabitLab">
+        <property name="text">
+         <string>数据位：</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="DataBitCbox"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="CheckBitCbox"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="PortLab">
+        <property name="text">
+         <string>端口：</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="StopBitLab">
+        <property name="text">
+         <string>停止位：</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="CheckBitLab">
+        <property name="text">
+         <string>校验位：</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="PortCbox"/>
+      </item>
+      <item row="5" column="0">
+       <widget class="QPushButton" name="RefreshPbtn">
+        <property name="text">
+         <string>刷新串口</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QPushButton" name="PortSwitchPbtn">
+        <property name="text">
+         <string>打开串口</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="BaudCbox"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="QComboBox" name="StopBitCbox"/>
+      </item>
+      <item row="6" column="0" colspan="2">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

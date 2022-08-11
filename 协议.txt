@@ -1,0 +1,9 @@
+A0	窗口复位
+A1	窗口初始化
+
+10	创建参数窗口	id		Name
+11	创建示波窗口	id（1Byte）	SeriesType（1Byte）		DataType（1Byte）		Name（32Byte）	
+12	创建图传窗口	id		ImageType		Height			Width		Name
+
+20	创建参数通道	id		ModeType		Name
+21	创建示波通道	控件id（1Byte）	Name （32Byte）
