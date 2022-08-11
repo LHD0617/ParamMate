@@ -211,17 +211,13 @@ void PM_SendImageData(PM_Image_t* PM_Image)
 	PM_uint16 DataSize;
 	if(PM_Image -> ImageType == 0)
 	{
-		DataSize = PM_Image -> Height * PM_Image -> Width / 8;
-		if(PM_Image -> Height * PM_Image -> Width % 8 != 0)
-		{
-			DataSize++;
-		}
+		PM_SendBinImage(PM_Image);
 	}
 	else
 	{
 		DataSize = PM_Image -> Height * PM_Image -> Width * PM_Image -> ImageType;
+		PM_SendMessage(PM_SENDIMAGE_COMM, PM_Image -> ID, DataSize, PM_Image -> DataAddr);
 	}
-	PM_SendMessage(PM_SENDIMAGE_COMM, PM_Image -> ID, DataSize, PM_Image -> DataAddr);
 }
 
 /**

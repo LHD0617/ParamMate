@@ -37,6 +37,7 @@ class UiSerialTool(QGroupBox):
         self.Ser = QSerialPort()
         super(UiSerialTool, self).__init__()
         self.setupUi(self)
+        self.RefreshPort()
 
     def setupUi(self, SerialTool):
         SerialTool.setObjectName("SerialTool")

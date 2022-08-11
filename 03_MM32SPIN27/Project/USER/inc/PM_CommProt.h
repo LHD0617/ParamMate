@@ -66,6 +66,7 @@ typedef struct
 void PM_SendMessage(PM_uint8 Type, PM_uint8 ID, PM_uint16 Length, void* DataP);
 void PM_SendPackect(PM_CommMsg_t* PM_CommMsg);
 void PM_TranSendByte(PM_uint8 dat);
+void PM_SendBinImage(PM_Image_t* PM_Image);
 
 
 #endif

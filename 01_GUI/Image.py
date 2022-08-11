@@ -81,7 +81,6 @@ class MyImage(QGroupBox):
 
     def InputData(self, Data: bytes):
         if self.ImageType == 0:     # 二值化图
-            print(Data)
             image = np.zeros((self.ImageHeight * 5, self.ImageWidth * 5), np.uint8)
             for i in range(self.ImageHeight):
                 for j in range(self.ImageWidth):
@@ -114,6 +113,11 @@ class MyImage(QGroupBox):
                 for j in range(self.ImageWidth):
                     Uint16Data = int.from_bytes(Data[i * self.ImageWidth * 2 + j * 2: i * self.ImageWidth * 2 + (j * 2) + 1 + 2], 'little')
                     image[i * 5: (i + 1) * 5, j * 5: (j + 1) * 5] = Uint16Data
+            if self.ImageGridCbox.isChecked():
+                for i in range(5, int(self.ImageHeight) * 5, 5):
+                    image[i, 0:int(self.ImageWidth) * 5] = 100
+                for i in range(5, int(self.ImageWidth) * 5, 5):
+                    image[0:int(self.ImageHeight) * 5, i] = 16904
             image = QImage(image, self.ImageWidth * 5, self.ImageHeight * 5, QImage.Format_RGB16)
             self.ImageLab.setPixmap(QPixmap.fromImage(image))
         if self.ImageType == 3:     # RGB888彩图

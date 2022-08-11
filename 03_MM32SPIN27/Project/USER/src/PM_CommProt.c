@@ -78,3 +78,40 @@ void PM_TranSendByte(PM_uint8 dat)
 	}
 }
 
+/**
+	* @name		PM_SendBinImage
+	* @brief  	发送二值化图像
+	* @param  	PM_CommMsg		数据包结构体
+	* @return 	void
+	* @Sample 
+  */
+void PM_SendBinImage(PM_Image_t* PM_Image)
+{
+	PM_uint8 dat, j;
+	PM_uint16 DataSize, i;
+	if(PM_Image -> ImageType == 0)
+	{
+		DataSize = PM_Image -> Height * PM_Image -> Width / 8;
+		if(PM_Image -> Height * PM_Image -> Width % 8 != 0)
+		{
+			DataSize++;
+		}
+	}
+	PM_SendByte(PM_PACKAGEHEAD);
+	PM_TranSendByte(PM_SENDIMAGE_COMM);
+	PM_TranSendByte(PM_Image -> ID);
+	PM_TranSendByte(DataSize & 0xFF);
+	PM_TranSendByte(DataSize >> 8);
+	for(i = 0; i < DataSize; i++)
+	{
+		dat = 0;
+		for(j = 0; j < 8; j++)
+		{
+			if(*((PM_uint8*)PM_Image -> DataAddr + i * 8 + j))
+				dat |= (0x01 << (7 - j));
+		}
+		PM_TranSendByte(dat);
+	}
+	
+}
+
