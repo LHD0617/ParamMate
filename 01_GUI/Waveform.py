@@ -14,7 +14,7 @@ from PyQt5.QtChart import QLineSeries, QChartView, QChart, QSplineSeries, QBarSe
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QGroupBox
 
-SeriesTypeStrList = ('折线图', '样条线图', '条形图', '饼图')
+SeriesTypeStrList = ('折线图', '样条线图', '条形图')
 DataTypeStrList = ('uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'float', 'double')
 
 MaxDataLen = 800  # 最大数据量当数据长度大于该数值将会清空数据
@@ -31,7 +31,6 @@ class MyWaveform(QGroupBox):
     DataType: int  # 数据类型
     Channels: int  # 通道数
     SeriesList: list  # 通道列表
-    BarSetList: list  # 柱状图数据列表
     SwitchAdaptiveFlag: bool  # 自适应开关状态
     SwitchFollowFlag: bool  # 自动跟踪开关状态
     AxisX: QValueAxis  # X轴
@@ -57,7 +56,6 @@ class MyWaveform(QGroupBox):
             self.AxisX.setTickCount(10)
             self.AxisX.setRange(0, 300)
         if SeriesType == 2:
-            self.BarSetList = []
             self.BarSeries = QBarSeries()
         self.AxisY = QValueAxis()
         self.AxisY.setTickCount(10)
@@ -257,11 +255,6 @@ class MyWaveform(QGroupBox):
             self.BarSeries.attachAxis(self.AxisY)
             self.Chart.legend().setVisible(True)
             self.Chart.legend().setAlignment(Qt.AlignBottom)
-        if self.SeriesType == 0x03:  # 饼图
-            PieSeries = QPieSeries()
-            PieSeries.setName(Name)
-            self.Chart.addSeries(PieSeries)
-            self.SeriesList.append(PieSeries)
         self.Channels = len(self.SeriesList)
         self.ChannelsLab.setText("通道数：%d" % len(self.SeriesList))
 
