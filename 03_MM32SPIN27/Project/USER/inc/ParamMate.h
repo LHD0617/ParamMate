@@ -102,7 +102,6 @@ typedef enum{
 	LineSeries_Type,									/* 折线图 */
 	SplineSeries_Type,									/* 样条线图 */
 	BarSeries_Type,										/* 直条形图 */
-	PieSeries_Type,										/* 饼图 */
 }Series_Type;
 
 /* @enum Image_Type */

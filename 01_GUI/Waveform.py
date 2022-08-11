@@ -7,6 +7,7 @@
 ------------      -------    --------    -----------
 2022/8/6 22:23   LHD      1.0         None
 """
+import struct
 import sys
 
 from PyQt5 import QtCore, QtWidgets
@@ -268,7 +269,7 @@ class MyWaveform(QGroupBox):
                 elif self.DataType < 8:  # 有符号整数
                     ChannelData = int.from_bytes(ChannelData, 'little', signed=True)
                 else:  # 浮点数
-                    pass
+                    ChannelData = struct.unpack('f', ChannelData)[0]
                 # 记录最值
                 if ChannelData > self.MaxValue:
                     self.MaxValue = ChannelData
