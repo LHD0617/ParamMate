@@ -110,7 +110,6 @@ typedef enum{
 	Binarization_Type,									/* 二值化图 */
 	Grayscale_Type,										/* 灰度图 */
 	RGB565_Type,										/* RGB565彩图 */
-	RGB888_Type,										/* RGB888彩图 */
 }Image_Type;
 
 /* @struct PM_Param_t */

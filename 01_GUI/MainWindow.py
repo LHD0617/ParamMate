@@ -39,27 +39,6 @@ PM_MAX_WIDTH = 188  # 图像最大宽度
 PM_MAX_HEIGHT = 120  # 图像最大高度
 
 
-def Lcm(x, y):
-    """
-    计算最小公倍数
-    :param x:
-    :param y:
-    :return:
-    """
-    if x > y:
-        greater = x
-    else:
-        greater = y
-    while True:
-        if x == 0 or y == 0:
-            return 0
-        if (greater % x == 0) & (greater % y == 0):
-            lcm = greater
-            break
-        greater += 1
-    return lcm
-
-
 class UiParamMateUI(QMainWindow):
     CommProt: CommProtClass  # 通信协议对象
     ParamList: list  # 参数控件列表

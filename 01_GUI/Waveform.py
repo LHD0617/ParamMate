@@ -212,7 +212,7 @@ class MyWaveform(QGroupBox):
             self.AxisY.setMax(self.MaxValue)
             self.AxisY.setMin(self.MinValue)
         else:
-            Offset = self.YAxisOffset / 1000
+            Offset = self.YAxisOffset / 150
             Offset *= self.YAxisRange
             self.AxisY.setRange(-self.YAxisRange - Offset, self.YAxisRange - Offset)
 

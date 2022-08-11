@@ -25,7 +25,7 @@
 uint16 ad[3][8];
 PM_Image_t* PM_Image11;
 PM_Waveform_t* PM_Waveform[3];
-uint8 image[50][90];
+uint8 image[60][90];
 
 
 
@@ -33,8 +33,7 @@ void Window_init(void);
 
 int main(void)
 {
-	uint8 i,j;
-	uint16 k=0;
+	uint8 i,j,k = 0;
 	board_init(true);
 	adc_init(ADC_1, ADC1_CH00_A00, ADC_12BIT);
 	gpio_init(C0, GPO, 1, GPO_PUSH_PULL);
@@ -42,8 +41,7 @@ int main(void)
 	{
 		for(j=0;j<90;j++)
 		{
-			image[i][j] = k;
-			k += 1;
+			image[i][j] = k++;
 		}
 	}
 	Window_init();
@@ -81,7 +79,7 @@ void Window_init(void)
 //	PM_CreateWaveformChannels(PM_Waveform[2], "Channels6", &ad[2][5]);
 //	PM_CreateWaveformChannels(PM_Waveform[2], "Channels7", &ad[2][6]);
 //	PM_CreateWaveformChannels(PM_Waveform[2], "Channels8", &ad[2][7]);
-	PM_Image11 = PM_CreateImage(0x35, "TestImage1", Grayscale_Type, 50, 90, image);
+	PM_Image11 = PM_CreateImage(0x35, "TestImage1", Grayscale_Type, 60, 90, image);
 //	PM_CreateImage(0x36, "TestImage2", Binarization_Type, 120, 188, ad);
 //	PM_Param_t* PM_Param = PM_CreateParam(0x21, "TestParam");
 //	PM_CreateParamChannels(PM_Param, "TestParam1", R_Type, ad);

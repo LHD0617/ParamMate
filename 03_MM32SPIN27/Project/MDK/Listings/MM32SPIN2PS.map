@@ -1832,9 +1832,9 @@ Image Symbol Table
     ov7725_uart_receive_flag                 0x200000c6   Data           1  seekfree_uart_7725.o(.data)
     .data                                    0x200000c8   Section        4  mvars.o(.data)
     .data                                    0x200000cc   Section        4  mvars.o(.data)
-    .bss                                     0x200000d0   Section     4560  main.o(.bss)
-    HEAP                                     0x200012a0   Section      512  startup_mm32spin2xx_p_keil.o(HEAP)
-    STACK                                    0x200014a0   Section     1024  startup_mm32spin2xx_p_keil.o(STACK)
+    .bss                                     0x200000d0   Section     5460  main.o(.bss)
+    HEAP                                     0x20001628   Section      512  startup_mm32spin2xx_p_keil.o(HEAP)
+    STACK                                    0x20001828   Section     1024  startup_mm32spin2xx_p_keil.o(STACK)
 
     Global Symbols
 
@@ -1971,10 +1971,10 @@ Image Symbol Table
     __microlib_freelist_initialised          0x200000cc   Data           4  mvars.o(.data)
     ad                                       0x200000d0   Data          48  main.o(.bss)
     PM_Waveform                              0x20000100   Data          12  main.o(.bss)
-    image                                    0x2000010c   Data        4500  main.o(.bss)
-    __heap_base                              0x200012a0   Data           0  startup_mm32spin2xx_p_keil.o(HEAP)
-    __heap_limit                             0x200014a0   Data           0  startup_mm32spin2xx_p_keil.o(HEAP)
-    __initial_sp                             0x200018a0   Data           0  startup_mm32spin2xx_p_keil.o(STACK)
+    image                                    0x2000010c   Data        5400  main.o(.bss)
+    __heap_base                              0x20001628   Data           0  startup_mm32spin2xx_p_keil.o(HEAP)
+    __heap_limit                             0x20001828   Data           0  startup_mm32spin2xx_p_keil.o(HEAP)
+    __initial_sp                             0x20001c28   Data           0  startup_mm32spin2xx_p_keil.o(STACK)
 
 
 
@@ -2077,7 +2077,7 @@ Memory Map of the image
     0x08001264   0x08001264   0x00000020   Data   RO         5397    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08001284, Size: 0x000018a0, Max: 0x00003000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08001284, Size: 0x00001c28, Max: 0x00003000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2094,9 +2094,10 @@ Memory Map of the image
     0x200000c7   0x0800134b   0x00000001   PAD
     0x200000c8   0x0800134c   0x00000004   Data   RW         5386    .data               mc_p.l(mvars.o)
     0x200000cc   0x08001350   0x00000004   Data   RW         5387    .data               mc_p.l(mvars.o)
-    0x200000d0        -       0x000011d0   Zero   RW          369    .bss                main.o
-    0x200012a0        -       0x00000200   Zero   RW          850    HEAP                startup_mm32spin2xx_p_keil.o
-    0x200014a0        -       0x00000400   Zero   RW          849    STACK               startup_mm32spin2xx_p_keil.o
+    0x200000d0        -       0x00001554   Zero   RW          369    .bss                main.o
+    0x20001624   0x08001354   0x00000004   PAD
+    0x20001628        -       0x00000200   Zero   RW          850    HEAP                startup_mm32spin2xx_p_keil.o
+    0x20001828        -       0x00000400   Zero   RW          849    STACK               startup_mm32spin2xx_p_keil.o
 
 
 ==============================================================================
@@ -2111,7 +2112,7 @@ Image component sizes
         36         10          0          0          0       1136   hal_dma.o
         48         12          0          0          0       1148   hal_exti.o
        768         58          0          0          0      55091   isr.o
-       252         74          0          4       4560       3631   main.o
+       252         74          0          4       5460       3611   main.o
        464          0          0          0          0       5967   parammate.o
        298          0          0          0          0      12743   pm_commprot.o
         60         18          0          4          0       2002   seekfree_7725.o
@@ -2125,9 +2126,9 @@ Image component sizes
        272         20          0         10          0       3569   zf_uart.o
 
     ----------------------------------------------------------------------
-      4156        426        224        200       6096     109196   Object Totals
+      4156        426        224        200       7000     109176   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-         6          0          0          3          0          0   (incl. Padding)
+         6          0          0          3          4          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -2168,14 +2169,14 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      4516        462        224        208       6096     107092   Grand Totals
-      4516        462        224        208       6096     107092   ELF Image Totals
+      4516        462        224        208       7000     107072   Grand Totals
+      4516        462        224        208       7000     107072   ELF Image Totals
       4516        462        224        208          0          0   ROM Totals
 
 ==============================================================================
 
     Total RO  Size (Code + RO Data)                 4740 (   4.63kB)
-    Total RW  Size (RW Data + ZI Data)              6304 (   6.16kB)
+    Total RW  Size (RW Data + ZI Data)              7208 (   7.04kB)
     Total ROM Size (Code + RO Data + RW Data)       4948 (   4.83kB)
 
 ==============================================================================

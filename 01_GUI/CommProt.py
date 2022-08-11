@@ -99,14 +99,3 @@ class CommProtClass(QObject):
                                 self.RevDataPackage.ResetPackage()
 
 
-# if __name__ == '__main__':
-#     with open('CreateWaveformData.txt', mode='r') as Fp:
-#         DataList = Fp.readlines()
-#     for data in DataList:
-#         BytesData += bytes.fromhex(data[0:-1].replace(' ', ''))
-#     CommProt = CommProtClass()
-#     for byte in BytesData:
-#         CommProt.InputByte(byte)
-#         CommProt.RevDataPackage.RevEnd = False
-#
-#
