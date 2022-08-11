@@ -19,7 +19,9 @@
 
 import re
 import sys
+from MessageClass import MessageClass
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import pyqtSignal, QTimer
 from PyQt5.QtWidgets import QGroupBox
 from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo
 
@@ -30,14 +32,18 @@ class UiSerialTool(QGroupBox):
     CheckBitStrList = ('无校验', '偶校验', '奇校验')
     CheckBitList = (QSerialPort.NoParity, QSerialPort.EvenParity, QSerialPort.OddParity)
     StopBitList = ('1', '2')
+    LogSignal = pyqtSignal(MessageClass)
+    RefreshPortTimer: QTimer()
 
     def __init__(self):
+        self.Name = 'SerialTool'
         self.SwitchPortFlag = False
         self.PortList = []
+        self.RefreshPortTimer = QTimer()
         self.Ser = QSerialPort()
         super(UiSerialTool, self).__init__()
         self.setupUi(self)
-        self.RefreshPort()
+        self.RefreshPortTimer.start(100)
 
     def setupUi(self, SerialTool):
         SerialTool.setObjectName("SerialTool")
@@ -70,12 +76,9 @@ class UiSerialTool(QGroupBox):
         self.PortCbox = QtWidgets.QComboBox()
         self.PortCbox.setObjectName("PortCbox")
         self.ConfigureGboxLayout.addWidget(self.PortCbox, 0, 1, 1, 1)
-        self.RefreshPbtn = QtWidgets.QPushButton()
-        self.RefreshPbtn.setObjectName("RefreshPbtn")
-        self.ConfigureGboxLayout.addWidget(self.RefreshPbtn, 5, 0, 1, 1)
         self.PortSwitchPbtn = QtWidgets.QPushButton()
         self.PortSwitchPbtn.setObjectName("PortSwitchPbtn")
-        self.ConfigureGboxLayout.addWidget(self.PortSwitchPbtn, 5, 1, 1, 1)
+        self.ConfigureGboxLayout.addWidget(self.PortSwitchPbtn, 5, 0, 1, 2)
         self.BaudCbox = QtWidgets.QComboBox()
         self.BaudCbox.setObjectName("BaudCbox")
         self.ConfigureGboxLayout.addWidget(self.BaudCbox, 1, 1, 1, 1)
@@ -98,7 +101,6 @@ class UiSerialTool(QGroupBox):
         self.PortLab.setText(_translate("SerialTool", "端口："))
         self.StopBitLab.setText(_translate("SerialTool", "停止位："))
         self.CheckBitLab.setText(_translate("SerialTool", "校验位："))
-        self.RefreshPbtn.setText(_translate("SerialTool", "刷新串口"))
         self.PortSwitchPbtn.setText(_translate("SerialTool", "打开串口"))
 
         self.BaudCbox.addItems(self.BaudList)
@@ -109,24 +111,26 @@ class UiSerialTool(QGroupBox):
         self.StopBitCbox.addItems(self.StopBitList)
 
     def SetSignalFunction(self):
-        # 按键类
-        self.RefreshPbtn.clicked.connect(self.RefreshPort)
         self.PortSwitchPbtn.clicked.connect(self.SwitchPort)
-
-        # 串口类
-        # self.Ser.readyRead.connect(self.ReceiveData)
+        self.RefreshPortTimer.timeout.connect(self.RefreshPort)
 
     def RefreshPort(self):
-        PortList = list(QSerialPortInfo.availablePorts())
-        self.PortList = []
-        if len(PortList) <= 0:
-            print('没有发现串口')
+        if not self.SwitchPortFlag:
+            TempPortList = list(QSerialPortInfo.availablePorts())
+            TempPortNameList = []
+            for TempPort in TempPortList:
+                TempPortNameList.append(TempPort.portName())
+            if not self.PortList == TempPortNameList:
+                self.PortList = TempPortNameList
+                self.PortCbox.clear()
+                self.PortCbox.addItems(self.PortList)
         else:
-            print('发现%d个串口' % len(PortList))
-            for Port in PortList:
-                self.PortList.append(Port.portName())
-        self.PortCbox.clear()
-        self.PortCbox.addItems(self.PortList)
+            TempPortList = list(QSerialPortInfo.availablePorts())
+            TempPortNameList = []
+            for TempPort in TempPortList:
+                TempPortNameList.append(TempPort.portName())
+            if not TempPortNameList.count(self.PortCbox.currentText()):
+                self.SwitchPort()
 
     def SwitchPort(self):
         com = self.PortCbox.currentText()
@@ -140,35 +144,30 @@ class UiSerialTool(QGroupBox):
                     self.Ser.setStopBits(int(self.StopBitCbox.currentText()))
                     self.Ser.open(QSerialPort.ReadWrite)
                 except:
-                    print('%s打开失败' % com)
+                    self.LogSignal.emit(MessageClass(self.Name, '%s打开失败' % com))
                 if self.Ser.isOpen():
-                    print('%s打开成功' % com)
+                    self.LogSignal.emit(MessageClass(self.Name, '%s打开成功' % com))
                     self.SwitchPortFlag = True
                     self.PortSwitchPbtn.setText('关闭串口')
-                    self.RefreshPbtn.setEnabled(False)
                     self.PortCbox.setEnabled(False)
                     self.BaudCbox.setEnabled(False)
                     self.DataBitCbox.setEnabled(False)
                     self.CheckBitCbox.setEnabled(False)
                     self.StopBitCbox.setEnabled(False)
                 else:
-                    print('%s打开失败' % com)
+                    self.LogSignal.emit(MessageClass(self.Name, '%s打开失败' % com))
             else:
-                print('请选择串口')
+                self.LogSignal.emit(MessageClass(self.Name, '请选择串口'))
         else:
             self.SwitchPortFlag = False
             self.PortSwitchPbtn.setText('打开串口')
-            self.RefreshPbtn.setEnabled(True)
             self.PortCbox.setEnabled(True)
             self.BaudCbox.setEnabled(True)
             self.DataBitCbox.setEnabled(True)
             self.CheckBitCbox.setEnabled(True)
             self.StopBitCbox.setEnabled(True)
             self.Ser.close()
-            print('%s已关闭' % com)
-
-    def ReceiveData(self):
-        print(self.Ser.readAll())
+            self.LogSignal.emit(MessageClass(self.Name, '%s已关闭' % com))
 
 
 if __name__ == '__main__':

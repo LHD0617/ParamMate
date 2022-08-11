@@ -173,10 +173,11 @@ class MyWaveform(QGroupBox):
             self.SetYAxisRange()
 
     def WheelEvent(self, event):
-        if event.delta() == 120:
-            self.YAxisZoom()
-        else:
-            self.YAxisShrink()
+        if not self.SwitchAdaptiveFlag:
+            if event.delta() == 120:
+                self.YAxisZoom()
+            else:
+                self.YAxisShrink()
 
     def XAxisZoom(self):
         if self.XAxisRange - 50 >= MinXAxisRange:
@@ -212,7 +213,7 @@ class MyWaveform(QGroupBox):
             self.AxisY.setMax(self.MaxValue)
             self.AxisY.setMin(self.MinValue)
         else:
-            Offset = self.YAxisOffset / 150
+            Offset = self.YAxisOffset / 400
             Offset *= self.YAxisRange
             self.AxisY.setRange(-self.YAxisRange - Offset, self.YAxisRange - Offset)
 
