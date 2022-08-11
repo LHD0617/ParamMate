@@ -10,7 +10,7 @@
 import sys
 
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtChart import QLineSeries, QChartView, QChart, QSplineSeries, QBarSeries, QPieSeries, QValueAxis
+from PyQt5.QtChart import QLineSeries, QChartView, QChart, QSplineSeries, QBarSeries, QPieSeries, QValueAxis, QBarSet
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QGroupBox
 
@@ -31,6 +31,7 @@ class MyWaveform(QGroupBox):
     DataType: int  # 数据类型
     Channels: int  # 通道数
     SeriesList: list  # 通道列表
+    BarSetList: list  # 柱状图数据列表
     SwitchAdaptiveFlag: bool  # 自适应开关状态
     SwitchFollowFlag: bool  # 自动跟踪开关状态
     AxisX: QValueAxis  # X轴
@@ -50,10 +51,14 @@ class MyWaveform(QGroupBox):
         self.Channels = 0
         self.SeriesList = []
         self.SwitchAdaptiveFlag = False
-        self.AxisX = QValueAxis()
-        self.AxisX.setLabelFormat('%d')
-        self.AxisX.setTickCount(10)
-        self.AxisX.setRange(0, 300)
+        if SeriesType == 0 or SeriesType == 1:
+            self.AxisX = QValueAxis()
+            self.AxisX.setLabelFormat('%d')
+            self.AxisX.setTickCount(10)
+            self.AxisX.setRange(0, 300)
+        if SeriesType == 2:
+            self.BarSetList = []
+            self.BarSeries = QBarSeries()
         self.AxisY = QValueAxis()
         self.AxisY.setTickCount(10)
         self.AxisY.setRange(0, 1)
@@ -114,6 +119,10 @@ class MyWaveform(QGroupBox):
         self.SeriesTypeLab = QtWidgets.QLabel()
         self.SeriesTypeLab.setObjectName("SeriesTypeLab")
         self.gridLayout.addWidget(self.SeriesTypeLab, 0, 2, 1, 2)
+
+        if self.SeriesType == 2 or self.SeriesType == 3:
+            self.XaxisZoomPbtn.setEnabled(False)
+            self.XaxisShrinkPbtn.setEnabled(False)
 
         self.retranslateUi(From)
         QtCore.QMetaObject.connectSlotsByName(From)
@@ -239,10 +248,15 @@ class MyWaveform(QGroupBox):
             SplineSeries.attachAxis(self.AxisY)
             self.SeriesList.append(SplineSeries)
         if self.SeriesType == 0x02:  # 条形图
-            BarSeries = QBarSeries()
-            BarSeries.setName(Name)
-            self.Chart.addSeries(BarSeries)
-            self.SeriesList.append(BarSeries)
+            BarSet = QBarSet(Name)
+            BarSet.append(0)
+            self.BarSeries.append(BarSet)
+            self.SeriesList.append(BarSet)
+            self.Chart.addSeries(self.BarSeries)
+            self.Chart.addAxis(self.AxisY, Qt.AlignLeft)
+            self.BarSeries.attachAxis(self.AxisY)
+            self.Chart.legend().setVisible(True)
+            self.Chart.legend().setAlignment(Qt.AlignBottom)
         if self.SeriesType == 0x03:  # 饼图
             PieSeries = QPieSeries()
             PieSeries.setName(Name)
@@ -268,18 +282,22 @@ class MyWaveform(QGroupBox):
                 if ChannelData < self.MinValue:
                     self.MinValue = ChannelData
                 # 将数据添加到通道
-                self.SeriesList[i].append(self.SysDataCount, ChannelData)
+                if self.SeriesType == 0 or self.SeriesType == 1:
+                    self.SeriesList[i].append(self.SysDataCount, ChannelData)
+                if self.SeriesType == 2:
+                    self.SeriesList[i].replace(0, ChannelData)
                 # 达到最大数据量清除缓存
                 if self.SysDataCount % MaxDataLen == 0 and self.SysDataCount > MaxDataLen:
                     self.SeriesList[i].removePoints(0, MaxDataLen)
             # X轴显示范围设置
-            self.SetXAxisRange()
+            if self.SeriesType == 0 or self.SeriesType == 1:
+                self.SetXAxisRange()
             # Y轴显示范围
             self.SetYAxisRange()
             # 计数+1
             self.SysDataCount += 1
         else:
-            print('示波控件数据接收错误')
+            print(len(Data), self.Channels * self.UnitChannelSize)
 
 
 if __name__ == '__main__':

@@ -24,6 +24,7 @@
 
 uint16 ad[3][8];
 PM_Image_t* PM_Image11;
+PM_Image_t* PM_Image22;
 PM_Waveform_t* PM_Waveform[3];
 uint8 image[60][90];
 
@@ -48,9 +49,18 @@ int main(void)
 	while(1)
 	{
 		gpio_toggle(C0);
-		ad[0][0] = adc_convert(ADC_1, ADC1_CH00_A00);
+		ad[1][0] = ad[0][0] = adc_convert(ADC_1, ADC1_CH00_A00);
 		PM_SendWaveformData(PM_Waveform[0]);
+		ad[1][1] = rand() & 0xfff;
+		ad[1][2] = rand() & 0xfff;
+		ad[1][3] = rand() & 0xfff;
+		ad[1][4] = rand() & 0xfff;
+		ad[1][5] = rand() & 0xfff;
+		ad[1][6] = rand() & 0xfff;
+		ad[1][7] = rand() & 0xfff;
+		PM_SendWaveformData(PM_Waveform[1]);
 		PM_SendImageData(PM_Image11);
+		PM_SendImageData(PM_Image22);
 		systick_delay_ms(20);
 	}
 } 
@@ -59,17 +69,17 @@ int main(void)
 void Window_init(void)
 {
 	PM_ResetWindow();
-	PM_Waveform[0] = PM_CreateWaveform(0x45, "TestWaveform1", LineSeries_Type, uint16_Type);
+	PM_Waveform[0] = PM_CreateWaveform(0x45, "TestWaveform1", SplineSeries_Type, uint16_Type);
 	PM_CreateWaveformChannels(PM_Waveform[0], "Channels1", &ad[0][0]);
-//	PM_Waveform[1] = PM_CreateWaveform(0x46, "TestWaveform2", SplineSeries_Type, uint16_Type);
-//	PM_CreateWaveformChannels(PM_Waveform[1], "Channels1", &ad[1][0]);
-//	PM_CreateWaveformChannels(PM_Waveform[1], "Channels2", &ad[1][1]);
-//	PM_CreateWaveformChannels(PM_Waveform[1], "Channels3", &ad[1][2]);
-//	PM_CreateWaveformChannels(PM_Waveform[1], "Channels4", &ad[1][3]);
-//	PM_CreateWaveformChannels(PM_Waveform[1], "Channels5", &ad[1][4]);
-//	PM_CreateWaveformChannels(PM_Waveform[1], "Channels6", &ad[1][5]);
-//	PM_CreateWaveformChannels(PM_Waveform[1], "Channels7", &ad[1][6]);
-//	PM_CreateWaveformChannels(PM_Waveform[1], "Channels8", &ad[1][7]);
+	PM_Waveform[1] = PM_CreateWaveform(0x46, "TestWaveform2", BarSeries_Type, uint16_Type);
+	PM_CreateWaveformChannels(PM_Waveform[1], "Channels1", &ad[1][0]);
+	PM_CreateWaveformChannels(PM_Waveform[1], "Channels2", &ad[1][1]);
+	PM_CreateWaveformChannels(PM_Waveform[1], "Channels3", &ad[1][2]);
+	PM_CreateWaveformChannels(PM_Waveform[1], "Channels4", &ad[1][3]);
+	PM_CreateWaveformChannels(PM_Waveform[1], "Channels5", &ad[1][4]);
+	PM_CreateWaveformChannels(PM_Waveform[1], "Channels6", &ad[1][5]);
+	PM_CreateWaveformChannels(PM_Waveform[1], "Channels7", &ad[1][6]);
+	PM_CreateWaveformChannels(PM_Waveform[1], "Channels8", &ad[1][7]);
 //	PM_Waveform[2] = PM_CreateWaveform(0x47, "TestWaveform3", SplineSeries_Type, uint32_Type);
 //	PM_CreateWaveformChannels(PM_Waveform[2], "Channels1", &ad[2][0]);
 //	PM_CreateWaveformChannels(PM_Waveform[2], "Channels2", &ad[2][1]);
@@ -80,7 +90,7 @@ void Window_init(void)
 //	PM_CreateWaveformChannels(PM_Waveform[2], "Channels7", &ad[2][6]);
 //	PM_CreateWaveformChannels(PM_Waveform[2], "Channels8", &ad[2][7]);
 	PM_Image11 = PM_CreateImage(0x35, "TestImage1", Grayscale_Type, 60, 90, image);
-//	PM_CreateImage(0x36, "TestImage2", Binarization_Type, 120, 188, ad);
+	PM_Image22 = PM_CreateImage(0x36, "TestImage2", Binarization_Type, 60, 90, image);
 //	PM_Param_t* PM_Param = PM_CreateParam(0x21, "TestParam");
 //	PM_CreateParamChannels(PM_Param, "TestParam1", R_Type, ad);
 //	PM_CreateParamChannels(PM_Param, "TestParam2", RW_Type, ad);
