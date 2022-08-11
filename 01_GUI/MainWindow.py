@@ -19,8 +19,8 @@
 import sys
 
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtCore import QTimer
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtCore import QTimer, Qt
+from PyQt5.QtWidgets import QMainWindow, QSplitter
 
 from CommProt import CommProtClass, RevDataPackageClass
 from Image import MyImage
@@ -119,17 +119,24 @@ class UiParamMateUI(QMainWindow):
         if DataPackage.Type == 0xa1:  # 窗口初始化命令
             if DataPackage.ID == PM_MAIN_WINDOW_ID:
                 if DataPackage.Data[0] == 0x01:
+                    ParamNum = len(self.ParamList)
                     WaveformNum = len(self.WaveformList)
                     ImageNum = len(self.ImageList)
-                    ParamNum = len(self.ParamList)
-                    lcm = Lcm(WaveformNum, ImageNum)
-                    for i in range(WaveformNum):
-                        self.SubWidgetLayout.addWidget(self.WaveformList[i], 1, i * (lcm // WaveformNum), 1,
-                                                       lcm // WaveformNum)
+                    SubSplitter = QSplitter(Qt.Vertical)
+                    ImageSplitter = QSplitter(Qt.Horizontal)
                     for i in range(ImageNum):
-                        self.SubWidgetLayout.addWidget(self.ImageList[i], 0, i * (lcm // ImageNum), 1, lcm // ImageNum)
+                        ImageSplitter.addWidget(self.ImageList[i])
+                    WaveformSplitter = QSplitter(Qt.Horizontal)
+                    for i in range(WaveformNum):
+                        WaveformSplitter.addWidget(self.WaveformList[i])
+                    ParamSplitter = QSplitter(Qt.Horizontal)
                     for i in range(ParamNum):
-                        self.SubWidgetLayout.addWidget(self.ParamList[i], 2, 0, 1, lcm)
+                        ParamSplitter.addWidget(self.ParamList[i])
+                    SubSplitter.addWidget(ImageSplitter)
+                    SubSplitter.addWidget(WaveformSplitter)
+                    SubSplitter.addWidget(ParamSplitter)
+                    self.SubWidgetLayout.addWidget(SubSplitter, 0, 0, 1, 1)
+
         if DataPackage.Type == 0x10:  # 创建参数控件命令
             # 判断是否超出控件最大数量
             ParamNum = len(self.ParamList)

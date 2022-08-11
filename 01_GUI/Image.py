@@ -8,7 +8,7 @@
 2022/8/7 15:41   LHD      1.0         None
 """
 import sys
-
+import numpy as np
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtWidgets import QGroupBox
@@ -38,19 +38,16 @@ class MyImage(QGroupBox):
         self.gridLayout.setObjectName("gridLayout")
         self.ImageLab = QtWidgets.QLabel()
         self.ImageLab.setEnabled(True)
-        self.ImageLab.setMinimumSize(QtCore.QSize(240, 600))
+        self.ImageLab.setMinimumSize(QtCore.QSize(0, 0))
         self.ImageLab.setAlignment(QtCore.Qt.AlignCenter)
         self.ImageLab.setObjectName("ImageLab")
         self.gridLayout.addWidget(self.ImageLab, 1, 0, 1, 5)
         self.ImageGridCbox = QtWidgets.QCheckBox()
         self.ImageGridCbox.setObjectName("ImageGridCbox")
         self.gridLayout.addWidget(self.ImageGridCbox, 2, 4, 1, 1)
-        self.ColorRevCbox = QtWidgets.QCheckBox()
-        self.ColorRevCbox.setObjectName("ColorRevCbox")
-        self.gridLayout.addWidget(self.ColorRevCbox, 2, 3, 1, 1)
         self.SaveImageCbox = QtWidgets.QCheckBox()
         self.SaveImageCbox.setObjectName("SaveImageCbox")
-        self.gridLayout.addWidget(self.SaveImageCbox, 2, 2, 1, 1)
+        self.gridLayout.addWidget(self.SaveImageCbox, 2, 3, 1, 1)
         self.IDLab = QtWidgets.QLabel()
         self.IDLab.setMaximumSize(QtCore.QSize(16777215, 20))
         self.IDLab.setObjectName("IDLab")
@@ -78,15 +75,51 @@ class MyImage(QGroupBox):
         self.IDLab.setText(_translate("Form", "ID：%d" % self.ID))
         self.ImageLab.setText(_translate("Form", "Image"))
         self.ImageGridCbox.setText(_translate("Form", "图像栅格"))
-        self.ColorRevCbox.setText(_translate("Form", "颜色反转"))
         self.SaveImageCbox.setText(_translate("Form", "保存图像"))
         self.ImageWidthLab.setText(_translate("Form", "图像宽度：%d" % self.ImageWidth))
         self.ImageTypeLab.setText(_translate("Form", "图像类型：%s" % ImageTypeStrList[self.ImageType]))
 
     def InputData(self, Data: bytes):
-        myqimage = QImage(Data, self.ImageWidth, self.ImageHeight, QImage.Format_Grayscale8)
-        self.ImageLab.setPixmap(QPixmap.fromImage(myqimage))
+        if self.ImageType == 0:     # 二值化图
+            print(Data)
+            image = np.zeros((self.ImageHeight * 5, self.ImageWidth * 5), np.uint8)
+            for i in range(self.ImageHeight):
+                for j in range(self.ImageWidth):
+                    if Data[(i * self.ImageWidth + j) // 8] & (0b10000000 >> ((i * self.ImageWidth + j) % 8)):
+                        image[i * 5:(i + 1) * 5, j * 5:(j + 1) * 5] = 255
+                    else:
+                        image[i * 5:(i + 1) * 5, j * 5:(j + 1) * 5] = 0
+            if self.ImageGridCbox.isChecked():
+                for i in range(5, int(self.ImageHeight) * 5, 5):
+                    image[i, 0:int(self.ImageWidth) * 5] = 100
+                for i in range(5, int(self.ImageWidth) * 5, 5):
+                    image[0:int(self.ImageHeight) * 5, i] = 100
+            image = QImage(image, image.shape[1], image.shape[0], image.shape[1], QImage.Format_Grayscale8)
+            self.ImageLab.setPixmap(QPixmap.fromImage(image))
+        if self.ImageType == 1:     # 灰度图
+            image = np.zeros((self.ImageHeight * 5, self.ImageWidth * 5), np.uint8)
+            for i in range(self.ImageHeight):
+                for j in range(self.ImageWidth):
+                    image[i * 5: (i + 1) * 5, j * 5: (j + 1) * 5] = Data[i * self.ImageWidth + j]
+            if self.ImageGridCbox.isChecked():
+                for i in range(5, int(self.ImageHeight) * 5, 5):
+                    image[i, 0:int(self.ImageWidth) * 5] = 100
+                for i in range(5, int(self.ImageWidth) * 5, 5):
+                    image[0:int(self.ImageHeight) * 5, i] = 100
+            image = QImage(image, image.shape[1], image.shape[0], image.shape[1], QImage.Format_Grayscale8)
+            self.ImageLab.setPixmap(QPixmap.fromImage(image))
+        if self.ImageType == 2:     # RGB565彩图
+            image = np.zeros((self.ImageHeight * 5, self.ImageWidth * 5), np.uint16)
+            for i in range(self.ImageHeight):
+                for j in range(self.ImageWidth):
+                    Uint16Data = int.from_bytes(Data[i * self.ImageWidth * 2 + j * 2: i * self.ImageWidth * 2 + (j * 2) + 1 + 2], 'little')
+                    image[i * 5: (i + 1) * 5, j * 5: (j + 1) * 5] = Uint16Data
+            image = QImage(image, self.ImageWidth * 5, self.ImageHeight * 5, QImage.Format_RGB16)
+            self.ImageLab.setPixmap(QPixmap.fromImage(image))
+        if self.ImageType == 3:     # RGB888彩图
+            pass
         self.ImageLab.setScaledContents(True)
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

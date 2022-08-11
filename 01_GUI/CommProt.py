@@ -76,6 +76,7 @@ class CommProtClass(QObject):
                                 if self.RevDataPackage.RevLen >= self.RevDataPackage.Length + 5:
                                     self.RevDataPackage.RevEnd = True
                                     self.RevFinishSignal.emit(self.RevDataPackage)
+                                    self.RevDataPackage.ResetPackage()
                     # 转义出现错误
                     else:
                         self.RevDataPackage.ResetPackage()
@@ -95,6 +96,7 @@ class CommProtClass(QObject):
                             if self.RevDataPackage.RevLen >= self.RevDataPackage.Length + 5:
                                 self.RevDataPackage.RevEnd = True
                                 self.RevFinishSignal.emit(self.RevDataPackage)
+                                self.RevDataPackage.ResetPackage()
 
 
 # if __name__ == '__main__':

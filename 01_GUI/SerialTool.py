@@ -101,7 +101,7 @@ class UiSerialTool(QGroupBox):
         self.PortSwitchPbtn.setText(_translate("SerialTool", "打开串口"))
 
         self.BaudCbox.addItems(self.BaudList)
-        self.BaudCbox.setCurrentIndex(4)
+        self.BaudCbox.setCurrentIndex(7)
         self.DataBitCbox.addItems(self.DataBitList)
         self.DataBitCbox.setCurrentIndex(3)
         self.CheckBitCbox.addItems(self.CheckBitStrList)
