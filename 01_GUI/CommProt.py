@@ -8,7 +8,11 @@
 2022/8/6 22:23   LHD      1.0         None
 """
 
-from PyQt5.QtCore import pyqtSignal, QObject
+from PyQt5.QtCore import pyqtSignal, QObject, QTimer
+
+from MessageClass import MessageClass
+
+MAX_TIME_OUT = 5
 
 
 class RevDataPackageClass:
@@ -36,10 +40,30 @@ class RevDataPackageClass:
 
 
 class CommProtClass(QObject):
+    TimeOut: int  # 系统接收超时时间
     RevDataPackage = RevDataPackageClass()
     RevFinishSignal = pyqtSignal(RevDataPackageClass)
+    LogSignal = pyqtSignal(MessageClass)
+
+    def __init__(self):
+        super(CommProtClass, self).__init__()
+        self.TimeOut = 0
+        self.Name = 'CommProt'
+        self.Timer = QTimer()
+        self.Timer.timeout.connect(self.TimeOutRecord)
+        self.Timer.start(1)
+
+    def TimeOutRecord(self):
+        if self.RevDataPackage.Head == 0x7a and not self.RevDataPackage.RevEnd:
+            if self.TimeOut < MAX_TIME_OUT:
+                self.TimeOut += 1
+                print(self.TimeOut)
+            else:
+                self.LogSignal.emit(MessageClass(self.Name, '接收超时'))
+                self.RevDataPackage.ResetPackage()
 
     def InputByte(self, Byte):
+        self.TimeOut = 0
         if not self.RevDataPackage.RevEnd:
             if type(Byte) == bytes:
                 Byte = int.from_bytes(Byte, byteorder='big')

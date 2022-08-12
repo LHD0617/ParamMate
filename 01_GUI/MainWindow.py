@@ -52,7 +52,6 @@ class UiParamMateUI(QMainWindow):
         self.Name = 'MainWindow'
         self.ID = PM_MAIN_WINDOW_ID
         self.CommProt = CommProtClass()
-        self.CommProt.RevFinishSignal.connect(self.CommandParsing)
         self.ParamList = []
         self.WaveformList = []
         self.ImageList = []
@@ -106,6 +105,8 @@ class UiParamMateUI(QMainWindow):
         """
         self.SerialTool.Ser.readyRead.connect(self.ReceiveData)
         self.SerialTool.LogSignal.connect(self.ShowMessage)
+        self.CommProt.RevFinishSignal.connect(self.CommandParsing)
+        self.CommProt.LogSignal.connect(self.ShowMessage)
 
     def CommandParsing(self, DataPackage: RevDataPackageClass):
         """
