@@ -20,8 +20,9 @@ import sys
 import time
 
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtCore import QTimer, Qt
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QSplitter
+from typing import List
 
 from CommProt import CommProtClass, RevDataPackageClass
 from Image import MyImage
@@ -45,9 +46,9 @@ class UiParamMateUI(QMainWindow):
     Name: str  # 主窗口名称
     ID: int  # 主窗口ID
     CommProt: CommProtClass  # 通信协议对象
-    ParamList: list  # 参数控件列表
-    WaveformList: list  # 示波控件列表
-    ImageList: list  # 图传控件列表
+    ParamList: List[MyParam]  # 参数控件列表
+    WaveformList: List[MyWaveform]  # 示波控件列表
+    ImageList: List[MyImage]  # 图传控件列表
 
     def __init__(self):
         super(UiParamMateUI, self).__init__()
@@ -117,12 +118,15 @@ class UiParamMateUI(QMainWindow):
                     ImageSplitter = QSplitter(Qt.Horizontal)
                     for i in range(ImageNum):
                         ImageSplitter.addWidget(self.ImageList[i])
+                        self.ImageList[i].LogSignal.connect(self.ShowMessage)
                     WaveformSplitter = QSplitter(Qt.Horizontal)
                     for i in range(WaveformNum):
                         WaveformSplitter.addWidget(self.WaveformList[i])
+                        self.WaveformList[i].LogSignal.connect(self.ShowMessage)
                     ParamSplitter = QSplitter(Qt.Horizontal)
                     for i in range(ParamNum):
                         ParamSplitter.addWidget(self.ParamList[i])
+                        self.ParamList[i].LogSignal.connect(self.ShowMessage)
                     SubSplitter.addWidget(ImageSplitter)
                     SubSplitter.addWidget(WaveformSplitter)
                     SubSplitter.addWidget(ParamSplitter)

@@ -12,8 +12,10 @@ import sys
 
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtChart import QLineSeries, QChartView, QChart, QSplineSeries, QBarSeries, QValueAxis, QBarSet
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import QGroupBox
+
+from MessageClass import MessageClass
 
 SeriesTypeStrList = ('折线图', '样条线图', '条形图')
 DataTypeStrList = ('uint8', 'uint16', 'uint32', 'int8', 'int16', 'int32', 'float')
@@ -26,6 +28,7 @@ MaxYAxisRange = 1073741824  # Y轴范围最大值
 
 
 class MyWaveform(QGroupBox):
+    Name: str  # 控件名称
     ID: int  # 控件ID
     SeriesType: int  # 控件类型
     DataType: int  # 数据类型
@@ -41,6 +44,7 @@ class MyWaveform(QGroupBox):
     XAxisRange: int  # X轴显示范围
     YAxisRange: int  # Y轴显示范围
     YAxisOffset: int  # Y轴坐标偏移量
+    LogSignal = pyqtSignal(MessageClass)
 
     def __init__(self, ID=0, Name='', SeriesType=0, DataType=0):
         """
@@ -51,6 +55,7 @@ class MyWaveform(QGroupBox):
         :param DataType:    数据类型
         """
         super(MyWaveform, self).__init__()
+        self.Name = Name
         self.ID = ID
         self.SeriesType = SeriesType
         self.DataType = DataType
@@ -303,7 +308,6 @@ class MyWaveform(QGroupBox):
                 # 达到最大数据量清除缓存
                 if self.SysDataCount % MaxDataLen == 0 and self.SysDataCount > MaxDataLen:
                     self.SeriesList[i].removePoints(0, MaxDataLen)
-
             # Y轴显示范围
             self.SetYAxisRange()
             if self.SeriesType == 0 or self.SeriesType == 1:
@@ -312,7 +316,7 @@ class MyWaveform(QGroupBox):
                 # 计数+1
                 self.SysDataCount += 1
         else:
-            print('示波控件数据接收错误')
+            self.LogSignal.emit(MessageClass(self.Name, '数据接收错误'))
 
 
 if __name__ == '__main__':

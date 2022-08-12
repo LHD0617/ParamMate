@@ -32,8 +32,8 @@ class UiSerialTool(QGroupBox):
     CheckBitStrList = ('无校验', '偶校验', '奇校验')
     CheckBitList = (QSerialPort.NoParity, QSerialPort.EvenParity, QSerialPort.OddParity)
     StopBitList = ('1', '2')
-    LogSignal = pyqtSignal(MessageClass)
     RefreshPortTimer: QTimer()
+    LogSignal = pyqtSignal(MessageClass)
 
     def __init__(self):
         self.Name = 'SerialTool'

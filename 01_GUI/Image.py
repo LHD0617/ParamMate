@@ -10,8 +10,11 @@
 import sys
 import numpy as np
 from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtWidgets import QGroupBox
+
+from MessageClass import MessageClass
 
 ImageTypeStrList = ('Binarization', 'Grayscale', 'RGB565', 'RGB888')
 
@@ -30,6 +33,7 @@ class MyImage(QGroupBox):
         self.ImageWidth = Width
         self.setupUi(self)
         self.setTitle(Name)
+        self.LogSignal = pyqtSignal(MessageClass)
 
     def setupUi(self, Form):
         Form.setObjectName("Form")

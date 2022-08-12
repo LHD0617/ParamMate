@@ -20,8 +20,9 @@ import struct
 import sys
 
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import QWidget, QGroupBox
+from MessageClass import MessageClass
 
 # 数据类型列表
 DataTypeStrList = ('uint8', 'uint16', 'uint32', 'int8', 'int16', 'int32', 'float')
@@ -35,6 +36,7 @@ class ParamSubClass(QWidget):
 
     def __init__(self, Name='', DataType=0, ModeType=0):
         super(ParamSubClass, self).__init__()
+        self.LogSignal = pyqtSignal(MessageClass)
         self.DataType = DataType
         self.NameLab = QtWidgets.QLabel()
         self.NameLab.setAlignment(Qt.AlignRight)
@@ -60,12 +62,15 @@ class ParamSubClass(QWidget):
 
 
 class MyParam(QGroupBox):
+    Name: str
     ID: int
     ParamSubList: list
     DataLen: int
+    LogSignal = pyqtSignal(MessageClass)
 
     def __init__(self, ID=0, Name=''):
         super(MyParam, self).__init__()
+        self.Name = Name
         self.ID = ID
         self.ParamSubList = []
         self.DataLen = 0
@@ -109,7 +114,7 @@ class MyParam(QGroupBox):
                     ChannelData = struct.unpack('f', ChannelData)[0]
                 self.ParamSubList[i].DataSBox.setValue(ChannelData)
         else:
-            print('数据接受错误')
+            self.LogSignal.emit(MessageClass(self.Name, '数据接收错误'))
 
 
 if __name__ == '__main__':
