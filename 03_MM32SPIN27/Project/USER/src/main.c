@@ -22,7 +22,7 @@
 
 
 
-uint16 ad[3][8];
+int16 ad[3][8];
 PM_Image_t* PM_Image11;
 PM_Image_t* PM_Image22;
 PM_Waveform_t* PM_Waveform[3];
@@ -34,6 +34,7 @@ void Window_init(void);
 
 int main(void)
 {
+	uint16 adc;
 	uint8 i,j,k = 0;
 	board_init(true);
 	adc_init(ADC_1, ADC1_CH00_A00, ADC_12BIT);
@@ -49,9 +50,11 @@ int main(void)
 	while(1)
 	{
 		gpio_toggle(C0);
-		ad[0][0] = adc_convert(ADC_1, ADC1_CH00_A00);
-		testdat += 0.00001 + ad[0][0] / 40950.0;
+		adc = adc_convert(ADC_1, ADC1_CH00_A00);
+		ad[0][0] = adc - 2048;
+		testdat+=0.0001;
 		PM_SendWaveformData(PM_Waveform[0]);
+		PM_SendWaveformData(PM_Waveform[1]);
 //		ad[1][1] = rand() & 0xfff;
 //		ad[1][2] = rand() & 0xfff;
 //		ad[1][3] = rand() & 0xfff;
@@ -70,10 +73,10 @@ int main(void)
 void Window_init(void)
 {
 	PM_ResetWindow();
-	PM_Waveform[0] = PM_CreateWaveform(0x45, "TestWaveform1", SplineSeries_Type, float_Type);
-	PM_CreateWaveformChannels(PM_Waveform[0], "Channels1", &testdat);
-//	PM_Waveform[1] = PM_CreateWaveform(0x46, "TestWaveform2", BarSeries_Type, uint16_Type);
-//	PM_CreateWaveformChannels(PM_Waveform[1], "Channels1", &ad[1][0]);
+	PM_Waveform[0] = PM_CreateWaveform(0x45, "TestWaveform1", SplineSeries_Type, int16_Type);
+	PM_CreateWaveformChannels(PM_Waveform[0], "Channels1", &ad[0][0]);
+	PM_Waveform[1] = PM_CreateWaveform(0x46, "TestWaveform2", BarSeries_Type, float_Type);
+	PM_CreateWaveformChannels(PM_Waveform[1], "Channels1", &testdat);
 //	PM_CreateWaveformChannels(PM_Waveform[1], "Channels2", &ad[1][1]);
 //	PM_CreateWaveformChannels(PM_Waveform[1], "Channels3", &ad[1][2]);
 //	PM_CreateWaveformChannels(PM_Waveform[1], "Channels4", &ad[1][3]);

@@ -183,10 +183,10 @@ void PM_SendWaveformData(PM_Waveform_t* PM_Waveform)
 {
 	PM_uint8 UnitChannelSize;
 	PM_uint8* pdatbuf;
-	if(PM_Waveform -> DataType & 0x08)
-		UnitChannelSize = 4 + (PM_Waveform -> DataType & 0x01) * 4;
+	if(PM_Waveform -> DataType == float_Type)
+		UnitChannelSize = 4;
 	else
-		UnitChannelSize = 0x01 << (PM_Waveform -> DataType & 0x03);
+		UnitChannelSize = 0x01 << (PM_Waveform -> DataType % 3);
 	PM_uint8 datbuf[UnitChannelSize * PM_Waveform -> Channels];
 	pdatbuf = datbuf;
 	for(PM_uint8 i = 0; i < PM_Waveform -> Channels; i++)

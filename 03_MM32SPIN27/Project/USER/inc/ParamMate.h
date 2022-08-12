@@ -88,13 +88,10 @@ typedef enum{
 	uint8_Type,											/* uint8 型 */
 	uint16_Type,										/* uint16 型 */
 	uint32_Type,										/* uint32 型 */
-	uint64_Type,										/* uint64 型 */
 	int8_Type,								    		/* int8 型 */
 	int16_Type,								    		/* int16 型 */
 	int32_Type,								    		/* int32 型 */
-	int64_Type,								    		/* int64 型 */
 	float_Type,								    		/* float 型 */
-	double_Type,										/* double 型 */
 }Data_Type;
 
 /* @enum SeriesType */

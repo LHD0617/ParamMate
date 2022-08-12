@@ -167,7 +167,7 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>50</LineNumber>
+          <LineNumber>81</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>0</Address>
           <ByteObject>0</ByteObject>
@@ -185,23 +185,23 @@
           <Type>0</Type>
           <LineNumber>45</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134222544</Address>
+          <Address>0</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
+          <BreakIfRCount>0</BreakIfRCount>
           <Filename>..\USER\src\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\MM32SPIN2PS\../USER/src/main.c\45</Expression>
+          <Expression></Expression>
         </Bp>
         <Bp>
           <Number>2</Number>
           <Type>0</Type>
-          <LineNumber>81</LineNumber>
+          <LineNumber>57</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134220794</Address>
+          <Address>134222308</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -210,23 +210,23 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\USER\src\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\MM32SPIN2PS\../USER/src/main.c\81</Expression>
+          <Expression>\\MM32SPIN2PS\../USER/src/main.c\57</Expression>
         </Bp>
         <Bp>
           <Number>3</Number>
           <Type>0</Type>
-          <LineNumber>222</LineNumber>
+          <LineNumber>50</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134219334</Address>
+          <Address>134222238</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\USER\src\ParamMate.c</Filename>
+          <Filename>..\USER\src\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\MM32SPIN2PS\../USER/src/ParamMate.c\222</Expression>
+          <Expression>\\MM32SPIN2PS\../USER/src/main.c\50</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>

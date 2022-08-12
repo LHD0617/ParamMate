@@ -11,7 +11,7 @@ import struct
 import sys
 
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtChart import QLineSeries, QChartView, QChart, QSplineSeries, QBarSeries, QPieSeries, QValueAxis, QBarSet
+from PyQt5.QtChart import QLineSeries, QChartView, QChart, QSplineSeries, QBarSeries, QValueAxis, QBarSet
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QGroupBox
 
@@ -19,7 +19,6 @@ SeriesTypeStrList = ('折线图', '样条线图', '条形图')
 DataTypeStrList = ('uint8', 'uint16', 'uint32', 'int8', 'int16', 'int32', 'float')
 
 MaxDataLen = 800  # 最大数据量当数据长度大于该数值将会清空数据
-
 MinXAxisRange = 50  # X轴范围最小值
 MaxXAxisRange = 800  # X轴范围最大值
 MinYAxisRange = 1  # Y轴范围最小值
@@ -44,6 +43,13 @@ class MyWaveform(QGroupBox):
     YAxisOffset: int  # Y轴坐标偏移量
 
     def __init__(self, ID=0, Name='', SeriesType=0, DataType=0):
+        """
+        初始化
+        :param ID:          控件ID号
+        :param Name:        控件名称
+        :param SeriesType:  控件类型
+        :param DataType:    数据类型
+        """
         super(MyWaveform, self).__init__()
         self.ID = ID
         self.SeriesType = SeriesType
@@ -56,13 +62,13 @@ class MyWaveform(QGroupBox):
             self.AxisX.setLabelFormat('%d')
             self.AxisX.setTickCount(10)
             self.AxisX.setRange(0, 300)
+            self.SysDataCount = 0
+            self.XAxisRange = 300
         if SeriesType == 2:
             self.BarSeries = QBarSeries()
         self.AxisY = QValueAxis()
         self.AxisY.setTickCount(10)
         self.AxisY.setRange(0, 1)
-        self.SysDataCount = 0
-        self.XAxisRange = 300
         self.YAxisRange = 1
         self.YAxisOffset = 0
         self.Chart = QChart()
@@ -81,6 +87,11 @@ class MyWaveform(QGroupBox):
             self.AxisY.setLabelFormat('%d')
 
     def setupUi(self, From):
+        """
+        UI页面初始化
+        :param From:
+        :return:
+        """
         From.setObjectName("From")
         From.resize(800, 600)
         self.gridLayout = QtWidgets.QGridLayout(self)
@@ -129,6 +140,11 @@ class MyWaveform(QGroupBox):
         self.SetSignalFunction()
 
     def retranslateUi(self, From):
+        """
+        系统控件命名
+        :param From:
+        :return:
+        """
         _translate = QtCore.QCoreApplication.translate
         From.setWindowTitle(_translate("From", "Form"))
         self.XaxisZoomPbtn.setText(_translate("From", "X轴放大"))
@@ -143,6 +159,10 @@ class MyWaveform(QGroupBox):
         self.IDLab.setText(_translate("From", "ID：%d" % self.ID))
 
     def SetSignalFunction(self):
+        """
+        设置信号槽
+        :return:
+        """
         # 按键类
         self.SwitchAdaptivePbtn.clicked.connect(self.SwitchAdaptive)
         self.XaxisZoomPbtn.clicked.connect(self.XAxisZoom)
@@ -265,9 +285,9 @@ class MyWaveform(QGroupBox):
             # 获取数据并添加到各个通道
             for i in range(self.Channels):
                 ChannelData = Data[i * self.UnitChannelSize: (i + 1) * self.UnitChannelSize]
-                if self.DataType < 4:  # 无符号整数
+                if self.DataType < 3:  # 无符号整数
                     ChannelData = int.from_bytes(ChannelData, 'little', signed=False)
-                elif self.DataType < 8:  # 有符号整数
+                elif self.DataType < 6:  # 有符号整数
                     ChannelData = int.from_bytes(ChannelData, 'little', signed=True)
                 else:  # 浮点数
                     ChannelData = struct.unpack('f', ChannelData)[0]
