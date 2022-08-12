@@ -1,6 +1,0 @@
---create .\Objects\MakeLibProject.lib
-.\objects\pm_commprot.o
-.\objects\pm_image.o
-.\objects\pm_param.o
-.\objects\pm_waveform.o
-.\objects\pm_window.o

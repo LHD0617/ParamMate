@@ -1,33 +1,0 @@
-Dependencies for Project 'MakeLibProject', Target 'Target 1': (DO NOT MODIFY !)
-F (..\STM32F103_RTThread_Drive\ParamMate\ParamMate.h)(0x62EC9E15)()
-F (..\STM32F103_RTThread_Drive\ParamMate\PM_CommProt.c)(0x62EB10A3)(--c99 --gnu -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\STM32F103_RTThread_Drive\ParamMate-I.\RTE\_Target_1-ID:\Keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include-ID:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="527" -DSTM32F10X_MD-o .\objects\pm_commprot.o --omf_browse .\objects\pm_commprot.crf --depend .\objects\pm_commprot.d)
-I (..\STM32F103_RTThread_Drive\ParamMate\ParamMate.h)(0x62EC9E15)
-I (D:\Keil5\ARM\ARMCC\include\stdlib.h)(0x5CEB79E2)
-I (..\STM32F103_RTThread_Drive\ParamMate\PM_CommProt.h)(0x62EB10A3)
-I (..\STM32F103_RTThread_Drive\ParamMate\PM_Waveform.h)(0x62EC9EA7)
-I (..\STM32F103_RTThread_Drive\ParamMate\PM_Image.h)(0x62EC9A17)
-I (..\STM32F103_RTThread_Drive\ParamMate\PM_Param.h)(0x62EC9EA6)
-I (..\STM32F103_RTThread_Drive\ParamMate\PM_Window.h)(0x62ECA153)
-F (..\STM32F103_RTThread_Drive\ParamMate\PM_CommProt.h)(0x62EB10A3)()
-F (..\STM32F103_RTThread_Drive\ParamMate\PM_Image.c)(0x62EC983F)(--c99 --gnu -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\STM32F103_RTThread_Drive\ParamMate-I.\RTE\_Target_1-ID:\Keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include-ID:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="527" -DSTM32F10X_MD-o .\objects\pm_image.o --omf_browse .\objects\pm_image.crf --depend .\objects\pm_image.d)
-F (..\STM32F103_RTThread_Drive\ParamMate\PM_Image.h)(0x62EC9A17)()
-F (..\STM32F103_RTThread_Drive\ParamMate\PM_Param.c)(0x62EC9BD0)(--c99 --gnu -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\STM32F103_RTThread_Drive\ParamMate-I.\RTE\_Target_1-ID:\Keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include-ID:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="527" -DSTM32F10X_MD-o .\objects\pm_param.o --omf_browse .\objects\pm_param.crf --depend .\objects\pm_param.d)
-F (..\STM32F103_RTThread_Drive\ParamMate\PM_Param.h)(0x62EC9EA6)()
-F (..\STM32F103_RTThread_Drive\ParamMate\PM_Waveform.c)(0x62EC9EBE)(--c99 --gnu -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\STM32F103_RTThread_Drive\ParamMate-I.\RTE\_Target_1-ID:\Keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include-ID:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="527" -DSTM32F10X_MD-o .\objects\pm_waveform.o --omf_browse .\objects\pm_waveform.crf --depend .\objects\pm_waveform.d)
-I (..\STM32F103_RTThread_Drive\ParamMate\ParamMate.h)(0x62EC9E15)
-I (D:\Keil5\ARM\ARMCC\include\stdlib.h)(0x5CEB79E2)
-I (..\STM32F103_RTThread_Drive\ParamMate\PM_CommProt.h)(0x62EB10A3)
-I (..\STM32F103_RTThread_Drive\ParamMate\PM_Waveform.h)(0x62EC9EA7)
-I (..\STM32F103_RTThread_Drive\ParamMate\PM_Image.h)(0x62EC9A17)
-I (..\STM32F103_RTThread_Drive\ParamMate\PM_Param.h)(0x62EC9EA6)
-I (..\STM32F103_RTThread_Drive\ParamMate\PM_Window.h)(0x62ECA153)
-F (..\STM32F103_RTThread_Drive\ParamMate\PM_Waveform.h)(0x62EC9EA7)()
-F (..\STM32F103_RTThread_Drive\ParamMate\PM_Window.c)(0x62EC9ECA)(--c99 --gnu -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\STM32F103_RTThread_Drive\ParamMate-I.\RTE\_Target_1-ID:\Keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include-ID:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="527" -DSTM32F10X_MD-o .\objects\pm_window.o --omf_browse .\objects\pm_window.crf --depend .\objects\pm_window.d)
-I (..\STM32F103_RTThread_Drive\ParamMate\ParamMate.h)(0x62EC9E15)
-I (D:\Keil5\ARM\ARMCC\include\stdlib.h)(0x5CEB79E2)
-I (..\STM32F103_RTThread_Drive\ParamMate\PM_CommProt.h)(0x62EB10A3)
-I (..\STM32F103_RTThread_Drive\ParamMate\PM_Waveform.h)(0x62EC9EA7)
-I (..\STM32F103_RTThread_Drive\ParamMate\PM_Image.h)(0x62EC9A17)
-I (..\STM32F103_RTThread_Drive\ParamMate\PM_Param.h)(0x62EC9EA6)
-I (..\STM32F103_RTThread_Drive\ParamMate\PM_Window.h)(0x62ECA153)
-F (..\STM32F103_RTThread_Drive\ParamMate\PM_Window.h)(0x62ECA153)()
