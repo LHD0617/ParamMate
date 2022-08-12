@@ -25,6 +25,7 @@
 
 PM_Waveform_t* PM_Waveform[3];
 PM_Param_t* PM_Param;
+PM_Image_t* PM_Image;
 int8 test1 = 0;
 int16 test2 = 0;
 int32 test3 = 0;
@@ -32,12 +33,14 @@ uint8 test4 = 0;
 uint16 test5 = 0;
 uint32 test6 = 0;
 float test7 = 0.0;
+uint8 image[60][90] = {0};
 
 
 void Window_init(void);
 
 int main(void)
 {
+	uint8 i,j;
 	board_init(true);
 	adc_init(ADC_1, ADC1_CH00_A00, ADC_12BIT);
 	gpio_init(C0, GPO, 1, GPO_PUSH_PULL);
@@ -45,21 +48,29 @@ int main(void)
 	Window_init();
 	while(1)
 	{
-		gpio_toggle(C0);
-		get_accdata();
-		get_gyro();
-		uint16 adc = adc_convert(ADC_1, ADC1_CH00_A00);
-		test1 = adc;
-		test2 = adc - 2048;
-		test3 = adc + 2048;
-		test4 = adc + 10;
-		test5 = adc + 20;
-		test6 = adc + 30;
-		test7 += 0.0000001;
-		PM_SendWaveformData(PM_Waveform[0]);
-		PM_SendWaveformData(PM_Waveform[1]);
-		PM_SendParamData(PM_Param);
-		systick_delay_ms(20);
+		for(i=0;i<60;i++)
+		{
+			for(j=0;j<90;j++)
+			{
+				gpio_toggle(C0);
+				get_accdata();
+				get_gyro();
+				uint16 adc = adc_convert(ADC_1, ADC1_CH00_A00);
+				image[i][j] = adc & 0x01;
+				test1 = adc;
+				test2 = adc - 2048;
+				test3 = adc + 2048;
+				test4 = adc + 10;
+				test5 = adc + 20;
+				test6 = adc + 30;
+				test7 += 0.0000001;
+				PM_SendWaveformData(PM_Waveform[0]);
+				PM_SendWaveformData(PM_Waveform[1]);
+				PM_SendParamData(PM_Param);
+				PM_SendImageData(PM_Image);
+				systick_delay_ms(20);
+			}
+		}
 	}
 } 
 
@@ -83,6 +94,7 @@ void Window_init(void)
 	PM_CreateParamChannels(PM_Param, "Test5", RW_Type, uint16_Type, &test5);
 	PM_CreateParamChannels(PM_Param, "Test6", RW_Type, uint32_Type, &test6);
 	PM_CreateParamChannels(PM_Param, "Test7", RW_Type, float_Type, &test7);
+	PM_Image = PM_CreateImage(38, "TestImage1", Binarization_Type, 60, 90, image);
 	PM_InitWindow();
 }
 
