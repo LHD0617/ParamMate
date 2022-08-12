@@ -16,7 +16,7 @@ from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtWidgets import QGroupBox
 from MessageClass import MessageClass
 
-ImageTypeStrList = ('Binarization', 'Grayscale', 'RGB565', 'RGB888')
+ImageTypeStrList = ('Binarization', 'Grayscale', 'RGB565')
 
 
 class MyImage(QGroupBox):
