@@ -65,16 +65,19 @@ PM_Param_t* PM_CreateParam(PM_uint8 ID, const PM_int8* Name)
 	* @param  	PM_Param			参数控件指针
 	* @param  	Name				数据名称
 	* @param  	ModeType			读写类型
+	* @param  	DataType			数据类型
 	* @param  	DataAddr			数据地址
 	* @return 	错误码
 	* @Sample 
   */
-PM_err PM_CreateParamChannels(PM_Param_t* PM_Param, const PM_int8* Name, RWMode_Type ModeType, void* DataAddr)
+PM_err PM_CreateParamChannels(PM_Param_t* PM_Param, const PM_int8* Name, RWMode_Type ModeType,Data_Type DataType, void* DataAddr)
 {
-	PM_uint8 datbuf[PM_MAX_NAME_LEN + 1] = {0};
+	PM_uint8 datbuf[PM_MAX_NAME_LEN + 2] = {0};
 	PM_uint8* Dp = datbuf;
 	if(PM_Param -> Channels >= PM_MAX_PARAMCANNELS)	return PM_EFULL;
+	PM_Param -> DataType[PM_Param -> Channels] = DataType;
 	PM_Param -> DataAddrList[PM_Param -> Channels++] = DataAddr;
+	*Dp++ = DataType & 0xff;
 	*Dp++ = ModeType & 0xff;
 	Dp = PM_Strcpy(Dp, Name);
 	PM_SendMessage(PM_CREATEPARAMCHANNELS_COMM, PM_Param -> ID, sizeof(datbuf), datbuf);
@@ -169,7 +172,39 @@ PM_Image_t* PM_CreateImage(PM_uint8 ID, const PM_int8* Name, Image_Type ImageTyp
   */
 void PM_SendParamData(PM_Param_t* PM_Param)
 {
-	
+	PM_uint8 DataLen = 0;
+	PM_uint8* pdatbuf;
+	for(PM_uint8 i = 0; i < PM_Param -> Channels; i++)
+	{
+		if(PM_Param -> DataType[i] == 6)
+		{
+			DataLen += 4;
+		}
+		else
+		{
+			DataLen += 0x01 << (PM_Param -> DataType[i] % 3);
+		}
+	}
+	PM_uint8 datbuf[DataLen];
+	pdatbuf = datbuf;
+	for(PM_uint8 i = 0; i < PM_Param -> Channels; i++)
+	{
+		if(PM_Param -> DataType[i] == 6)
+		{
+			for(PM_uint8 j = 0; j < 4; j++)
+			{
+				*pdatbuf++ = *((PM_uint8*)PM_Param -> DataAddrList[i] + j);
+			}
+		}
+		else
+		{
+			for(PM_uint8 j = 0; j < (0x01 << (PM_Param -> DataType[i] % 3)); j++)
+			{
+				*pdatbuf++ = *((PM_uint8*)PM_Param -> DataAddrList[i] + j);
+			}
+		}
+	}
+	PM_SendMessage(PM_SENDPARAM_COMM, PM_Param -> ID, sizeof(datbuf), datbuf);
 }
 
 /**

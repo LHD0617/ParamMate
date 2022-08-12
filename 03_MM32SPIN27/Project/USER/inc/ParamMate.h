@@ -113,6 +113,7 @@ typedef struct
 {
 	PM_uint8 ID;										/* ID */
 	PM_uint8 Channels;									/* 参数通道数 */
+	PM_uint8 DataType[PM_MAX_PARAMCANNELS];				/* 参数数据类型 */
 	void* DataAddrList[PM_MAX_PARAMCANNELS];			/* 参数数据地址 */
 }PM_Param_t;
 
@@ -140,7 +141,7 @@ typedef struct
 void PM_ResetWindow(void);
 void PM_InitWindow(void);
 PM_Param_t* PM_CreateParam(PM_uint8 ID, const PM_int8* Name);
-PM_err PM_CreateParamChannels(PM_Param_t* PM_Param, const PM_int8* Name, RWMode_Type ModeType, void* DataAddr);
+PM_err PM_CreateParamChannels(PM_Param_t* PM_Param, const PM_int8* Name, RWMode_Type ModeType,Data_Type DataType, void* DataAddr);
 PM_Waveform_t* PM_CreateWaveform(PM_uint8 ID, const PM_int8* Name, Series_Type SeriesType, Data_Type DataType);
 PM_err PM_CreateWaveformChannels(PM_Waveform_t* PM_Waveform, const PM_int8* Name, void* DataAddr);
 PM_Image_t* PM_CreateImage(PM_uint8 ID, const PM_int8* Name, Image_Type ImageType, PM_uint8 Height, PM_uint8 Width, void* DataAddr);

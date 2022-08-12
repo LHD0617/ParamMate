@@ -18,9 +18,9 @@ from PyQt5.QtWidgets import QGroupBox
 SeriesTypeStrList = ('折线图', '样条线图', '条形图')
 DataTypeStrList = ('uint8', 'uint16', 'uint32', 'int8', 'int16', 'int32', 'float')
 
-MaxDataLen = 800  # 最大数据量当数据长度大于该数值将会清空数据
+MaxDataLen = 500  # 最大数据量当数据长度大于该数值将会清空数据
 MinXAxisRange = 50  # X轴范围最小值
-MaxXAxisRange = 800  # X轴范围最大值
+MaxXAxisRange = 500  # X轴范围最大值
 MinYAxisRange = 1  # Y轴范围最小值
 MaxYAxisRange = 1073741824  # Y轴范围最大值
 
@@ -280,7 +280,6 @@ class MyWaveform(QGroupBox):
         self.ChannelsLab.setText("通道数：%d" % len(self.SeriesList))
 
     def InputData(self, Data: bytes):
-        print(Data)
         if len(Data) == self.Channels * self.UnitChannelSize:
             # 获取数据并添加到各个通道
             for i in range(self.Channels):
@@ -313,7 +312,7 @@ class MyWaveform(QGroupBox):
                 # 计数+1
                 self.SysDataCount += 1
         else:
-            print(len(Data), self.Channels * self.UnitChannelSize)
+            print('示波控件数据接收错误')
 
 
 if __name__ == '__main__':

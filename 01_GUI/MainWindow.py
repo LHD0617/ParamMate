@@ -154,11 +154,12 @@ class UiParamMateUI(QMainWindow):
                 NewImage = MyImage(ID=DataPackage.ID, Name=Name, ImageType=ImageType, Height=Height, Width=Width)
                 self.ImageList.append(NewImage)
         if DataPackage.Type == 0x20:  # 创建参数通道
-            TypeMode = DataPackage.Data[0]
-            Name = DataPackage.Data[1: PM_MAX_NAME_LEN + 1].decode()
+            DataType = DataPackage.Data[0]
+            ModeType = DataPackage.Data[1]
+            Name = DataPackage.Data[2: PM_MAX_NAME_LEN + 2].decode()
             for Param in self.ParamList:
                 if Param.ID == DataPackage.ID:
-                    Param.AddChannels(Name=Name, DataType=TypeMode)
+                    Param.AddChannels(Name=Name, DataType=DataType, ModeType=ModeType)
                     break
             else:
                 self.ShowMessage(MessageClass(self.Name, '创建参数通道%s时未找到ID为%d的控件' % (Name, DataPackage.ID)))
@@ -171,7 +172,12 @@ class UiParamMateUI(QMainWindow):
             else:
                 self.ShowMessage(MessageClass(self.Name, '创建参数通道%s时未找到ID为%d的控件' % (Name, DataPackage.ID)))
         if DataPackage.Type == 0x30:  # 上传参数数据命令
-            pass
+            for Param in self.ParamList:
+                if Param.ID == DataPackage.ID:
+                    Param.InputData(DataPackage.Data)
+                    break
+            else:
+                self.ShowMessage(MessageClass(self.Name, '接收到来自ID为%d的控件数据未找到其相应控件' % DataPackage.ID))
         if DataPackage.Type == 0x31:  # 上传示波数据命令
             for Waveform in self.WaveformList:
                 if Waveform.ID == DataPackage.ID:
