@@ -32,26 +32,33 @@ MAXVALUE = 2147483647
 
 
 class ParamSubClass(QWidget):
+    Index: int
     DataType: int
+    SendDataSignal = pyqtSignal(bytes)
 
-    def __init__(self, Name='', DataType=0, ModeType=0):
+    def __init__(self, Name='', DataType=0, ModeType=0, Index=0):
         super(ParamSubClass, self).__init__()
-        self.LogSignal = pyqtSignal(MessageClass)
+        self.Index = Index
         self.DataType = DataType
         self.NameLab = QtWidgets.QLabel()
         self.NameLab.setAlignment(Qt.AlignRight)
         self.NameLab.setAlignment(Qt.AlignCenter)
         self.NameLab.setText(Name + '：')
-        if DataType == 6:  # 整数类型
+        if DataType == 6:  # 浮点数类型
             self.DataSBox = QtWidgets.QDoubleSpinBox()
+            self.DataSBox.setSingleStep(0.0000001)
             self.DataSBox.setDecimals(7)
         else:
             self.DataSBox = QtWidgets.QSpinBox()
-            self.DataSBox.setRange(-MAXVALUE - 1, MAXVALUE)
+            if DataType < 3:
+                self.DataSBox.setRange(0, MAXVALUE)
+            else:
+                self.DataSBox.setRange(-MAXVALUE - 1, MAXVALUE)
         if ModeType == 0:
             self.DataSBox.setReadOnly(True)
         else:
             self.DataSBox.setReadOnly(False)
+        self.DataSBox.valueChanged.connect(self.OutputData)
         self.setupUi()
 
     def setupUi(self):
@@ -60,6 +67,14 @@ class ParamSubClass(QWidget):
         Layout.addWidget(self.DataSBox)
         self.setLayout(Layout)
 
+    def OutputData(self, Data):
+        dat = self.Index.to_bytes(1, 'little', signed=False)
+        if type(Data) == int:
+            dat += Data.to_bytes(4, 'little', signed=True)
+        if type(Data) == float:
+            dat += struct.pack('f', Data)
+        self.SendDataSignal.emit(dat)
+
 
 class MyParam(QGroupBox):
     Name: str
@@ -67,6 +82,7 @@ class MyParam(QGroupBox):
     ParamSubList: list
     DataLen: int
     LogSignal = pyqtSignal(MessageClass)
+    SendDataSignal = pyqtSignal(int, int, bytes)
 
     def __init__(self, ID=0, Name=''):
         super(MyParam, self).__init__()
@@ -86,7 +102,8 @@ class MyParam(QGroupBox):
 
     def AddChannels(self, Name='', DataType=0, ModeType=0):
         ParamSubNum = len(self.ParamSubList)
-        ParamSub = ParamSubClass(Name=Name, DataType=DataType, ModeType=ModeType)
+        ParamSub = ParamSubClass(Name=Name, DataType=DataType, ModeType=ModeType, Index=ParamSubNum)
+        ParamSub.SendDataSignal.connect(self.OutputData)
         row = ParamSubNum >> 0x03  # 获取控件所在行
         col = ParamSubNum & 0x07  # 获取控件所在列
         self.SubLayout.addWidget(ParamSub, row, col, 1, 1)
@@ -115,6 +132,9 @@ class MyParam(QGroupBox):
                 self.ParamSubList[i].DataSBox.setValue(ChannelData)
         else:
             self.LogSignal.emit(MessageClass(self.Name, '数据接收错误'))
+
+    def OutputData(self, dat: bytes):
+        self.SendDataSignal.emit(0x40, self.ID, dat)
 
 
 if __name__ == '__main__':

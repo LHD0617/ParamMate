@@ -62,6 +62,7 @@ void TIM17_IRQHandler (void)
 	TIM17->SR &= ~state;															// 清空中断状态
 }
 
+extern PM_Param_t* PM_Param;
 void UART1_IRQHandler(void)
 {
 	if(UART1->ISR & UART_ISR_TX_INTF)												// 串口发送缓冲空中断
@@ -70,6 +71,7 @@ void UART1_IRQHandler(void)
 	}
 	if(UART1->ISR & UART_ISR_RX_INTF)												// 串口接收缓冲中断
 	{
+		PM_RevHandle(PM_Param, (uint8)UART1->RDR);
 		UART1->ICR |= UART_ICR_RXICLR;												// 清除中断标志位
 	}
 }

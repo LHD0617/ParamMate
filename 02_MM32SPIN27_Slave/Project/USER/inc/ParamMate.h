@@ -35,6 +35,9 @@ typedef volatile PM_uint32				PM_vuint32;												// 32 bits
 typedef volatile PM_uint64				PM_vuint64;												// 64 bits 
 
 
+/* @define REV_HANDLE */
+#define REV_HANDLE					1					/* 是否开启回传数据 */
+
 /* @define PM_MAIN_WINDOW_ID */
 #define PM_MAIN_WINDOW_ID			0xFF				/* 主窗口ID */
 

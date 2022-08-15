@@ -23,10 +23,11 @@
 
 
 
-PM_Waveform_t* PM_Waveform[3];
+PM_Waveform_t* PM_Waveform[1];
 PM_Param_t* PM_Param;
-PM_Image_t* PM_Image;
-int8 test1 = 0;
+//PM_Image_t* PM_Image;
+int16 ad;
+int8 test1 = 1;
 int16 test2 = 0;
 int32 test3 = 0;
 uint8 test4 = 0;
@@ -42,6 +43,7 @@ int main(void)
 {
 	uint8 i,j;
 	board_init(true);
+	uart_rx_irq(UART_1,1);
 	adc_init(ADC_1, ADC1_CH00_A00, ADC_12BIT);
 	gpio_init(C0, GPO, 1, GPO_PUSH_PULL);
 	mpu6050_init();
@@ -53,21 +55,19 @@ int main(void)
 			for(j=0;j<90;j++)
 			{
 				gpio_toggle(C0);
-				get_accdata();
-				get_gyro();
-				uint16 adc = adc_convert(ADC_1, ADC1_CH00_A00);
-				image[i][j] = adc & 0x01;
-				test1 = adc;
-				test2 = adc - 2048;
-				test3 = adc + 2048;
-				test4 = adc + 10;
-				test5 = adc + 20;
-				test6 = adc + 30;
-				test7 += 0.0000001;
+				ad = adc_convert(ADC_1, ADC1_CH00_A00) * test1;
+//				image[i][j] = adc & 0x01;
+//				test1 = adc;
+//				test2 = adc - 2048;
+//				test3 = adc + 2048;
+//				test4 = adc + 10;
+//				test5 = adc + 20;
+//				test6 = adc + 30;
+//				test7 += 0.0000001;
 				PM_SendWaveformData(PM_Waveform[0]);
-				PM_SendWaveformData(PM_Waveform[1]);
+////				PM_SendWaveformData(PM_Waveform[1]);
 				PM_SendParamData(PM_Param);
-				PM_SendImageData(PM_Image);
+				//PM_SendImageData(PM_Image);
 				systick_delay_ms(20);
 			}
 		}
@@ -78,23 +78,23 @@ int main(void)
 void Window_init(void)
 {
 	PM_ResetWindow();
-	PM_Waveform[0] = PM_CreateWaveform(35, "MPU6050_Gyro", LineSeries_Type, int16_Type);
-	PM_CreateWaveformChannels(PM_Waveform[0], "X_Gyro", &mpu_gyro_x);
-	PM_CreateWaveformChannels(PM_Waveform[0], "Y_Gyro", &mpu_gyro_y);
-	PM_CreateWaveformChannels(PM_Waveform[0], "Z_Gyro", &mpu_gyro_z);
-	PM_Waveform[1] = PM_CreateWaveform(36, "MPU6050_Acc", LineSeries_Type, int16_Type);
-	PM_CreateWaveformChannels(PM_Waveform[1], "X_Acc", &mpu_acc_x);
-	PM_CreateWaveformChannels(PM_Waveform[1], "Y_Acc", &mpu_acc_y);
-	PM_CreateWaveformChannels(PM_Waveform[1], "Z_Acc", &mpu_acc_z);
+	PM_Waveform[0] = PM_CreateWaveform(35, "ADC", LineSeries_Type, int16_Type);
+	PM_CreateWaveformChannels(PM_Waveform[0], "ad0", &ad);
+////	PM_CreateWaveformChannels(PM_Waveform[0], "Y_Gyro", &mpu_gyro_y);
+////	PM_CreateWaveformChannels(PM_Waveform[0], "Z_Gyro", &mpu_gyro_z);
+////	PM_Waveform[1] = PM_CreateWaveform(36, "MPU6050_Acc", LineSeries_Type, int16_Type);
+////	PM_CreateWaveformChannels(PM_Waveform[1], "X_Acc", &mpu_acc_x);
+////	PM_CreateWaveformChannels(PM_Waveform[1], "Y_Acc", &mpu_acc_y);
+////	PM_CreateWaveformChannels(PM_Waveform[1], "Z_Acc", &mpu_acc_z);
 	PM_Param = PM_CreateParam(37, "Test_param");
 	PM_CreateParamChannels(PM_Param, "Test1", RW_Type, int8_Type, &test1);
-	PM_CreateParamChannels(PM_Param, "Test2", RW_Type, int16_Type, &test2);
+	PM_CreateParamChannels(PM_Param, "Test2", R_Type, int16_Type, &test2);
 	PM_CreateParamChannels(PM_Param, "Test3", RW_Type, int32_Type, &test3);
 	PM_CreateParamChannels(PM_Param, "Test4", RW_Type, uint8_Type, &test4);
 	PM_CreateParamChannels(PM_Param, "Test5", RW_Type, uint16_Type, &test5);
 	PM_CreateParamChannels(PM_Param, "Test6", RW_Type, uint32_Type, &test6);
 	PM_CreateParamChannels(PM_Param, "Test7", RW_Type, float_Type, &test7);
-	PM_Image = PM_CreateImage(38, "TestImage1", Binarization_Type, 60, 90, image);
+////	PM_Image = PM_CreateImage(38, "TestImage1", Binarization_Type, 60, 90, image);
 	PM_InitWindow();
 }
 

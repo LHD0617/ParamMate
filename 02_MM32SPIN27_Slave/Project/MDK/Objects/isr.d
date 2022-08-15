@@ -78,4 +78,6 @@
 .\objects\isr.o: ..\..\Libraries\seekfree_peripheral\SEEKFREE_MT9V03X.h
 .\objects\isr.o: ..\USER\inc\Nixie_Tube.h
 .\objects\isr.o: ..\USER\inc\SMG.h
+.\objects\isr.o: ..\USER\inc\ParamMate.h
+.\objects\isr.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\isr.o: ..\USER\inc\isr.h

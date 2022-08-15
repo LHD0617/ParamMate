@@ -134,7 +134,7 @@ class UiParamMateUI(QMainWindow):
                     ImageNum = len(self.ImageList)
                     SubSplitter = QSplitter(Qt.Vertical)
                     ImageSplitter = QSplitter(Qt.Horizontal)
-                    # 添加控件到窗口中并将其LOG信息信号连接到主窗口
+                    # 添加控件到窗口中并将其信号连接到主窗口
                     for i in range(ImageNum):
                         ImageSplitter.addWidget(self.ImageList[i])
                         self.ImageList[i].LogSignal.connect(self.ShowMessage)
@@ -146,6 +146,7 @@ class UiParamMateUI(QMainWindow):
                     for i in range(ParamNum):
                         ParamSplitter.addWidget(self.ParamList[i])
                         self.ParamList[i].LogSignal.connect(self.ShowMessage)
+                        self.ParamList[i].SendDataSignal.connect(self.SendData)
                     SubSplitter.addWidget(ImageSplitter)
                     SubSplitter.addWidget(WaveformSplitter)
                     SubSplitter.addWidget(ParamSplitter)
@@ -232,6 +233,9 @@ class UiParamMateUI(QMainWindow):
         BytesList = self.SerialTool.Ser.readAll()
         for Byte in BytesList:
             self.CommProt.InputByte(Byte)
+
+    def SendData(self, Type: int, ID: int, dat: bytes):
+        self.SerialTool.OutputData(self.CommProt.OutputByte(Type, ID, dat))
 
 
 if __name__ == '__main__':

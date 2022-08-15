@@ -169,6 +169,10 @@ class UiSerialTool(QGroupBox):
             self.Ser.close()
             self.LogSignal.emit(MessageClass(self.Name, '%s已关闭' % com))
 
+    def OutputData(self, dat: bytes):
+        print(dat.hex())
+        self.Ser.write(dat)
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

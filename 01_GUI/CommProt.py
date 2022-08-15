@@ -61,6 +61,14 @@ class CommProtClass(QObject):
                 self.LogSignal.emit(MessageClass(self.Name, '接收超时'))
                 self.RevDataPackage.ResetPackage()
 
+    def Translation(self, Byte) -> bytes:
+        if Byte == 0x7a:
+            return bytes([0x7b, 0x00])
+        elif Byte == 0x7b:
+            return bytes([0x7b, 0x01])
+        else:
+            return bytes([Byte])
+
     def InputByte(self, Byte):
         self.TimeOut = 0
         if not self.RevDataPackage.RevEnd:
@@ -121,4 +129,13 @@ class CommProtClass(QObject):
                                 self.RevFinishSignal.emit(self.RevDataPackage)
                                 self.RevDataPackage.ResetPackage()
 
+    def OutputByte(self, Type: int, ID: int, dat: bytes) -> bytes:
+        DataBuf = bytes([0x7a])
+        DataBuf += self.Translation(Type)
+        DataBuf += self.Translation(ID)
+        DataBuf += self.Translation(len(dat) & 0xff)
+        DataBuf += self.Translation(len(dat) >> 8)
+        for i in range(len(dat)):
+            DataBuf += self.Translation(dat[i])
+        return DataBuf
 

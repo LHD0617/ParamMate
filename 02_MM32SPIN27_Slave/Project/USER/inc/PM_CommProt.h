@@ -61,12 +61,28 @@ typedef struct
 }PM_CommMsg_t;
 
 
+/* @struct PM_RevCommMsg_t */
+typedef struct
+{
+	PM_uint8		RevEnd;
+	PM_uint8		TranFlag;
+	PM_uint8		RevLen;
+	PM_uint8 		Head;
+	PM_uint8 		Type;
+	PM_uint8		ID;
+	PM_uint16		Length;
+	PM_uint8		DataBuf[5];
+}PM_RevCommMsg_t;
+
+
 
 /* @Function declarations */
 void PM_SendMessage(PM_uint8 Type, PM_uint8 ID, PM_uint16 Length, void* DataP);
 void PM_SendPackect(PM_CommMsg_t* PM_CommMsg);
 void PM_TranSendByte(PM_uint8 dat);
 void PM_SendBinImage(PM_Image_t* PM_Image);
+void PM_RevHandle(PM_Param_t* Param, PM_uint8 dat);
+void PM_ResetPackage(void);
 
 
 #endif

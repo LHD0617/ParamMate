@@ -23,7 +23,7 @@
 #include "common.h"
 
 #define DEBUG_UART			UART_1
-#define DEBUG_UART_BAUD		2000000
+#define DEBUG_UART_BAUD		115200
 #define DEBUG_UART_TX		UART1_TX_A09
 #define DEBUG_UART_RX		UART1_RX_A10
 
