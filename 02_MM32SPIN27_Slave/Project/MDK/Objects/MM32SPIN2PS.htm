@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\MM32SPIN2PS.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\MM32SPIN2PS.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Aug 15 16:11:57 2022
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Aug 15 17:23:06 2022
 <BR><P>
 <H3>Maximum Stack Usage =        136 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -145,10 +145,10 @@ Global Symbols
 <P><STRONG><a name="[29]"></a>__aeabi_uidivmod</STRONG> (Thumb, 44 bytes, Stack size 12 bytes, uidiv.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = __aeabi_uidivmod
 </UL>
-<BR>[Called By]<UL><LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;systick_delay_ms
-<LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AutoCalPllFactor
+<BR>[Called By]<UL><LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AutoCalPllFactor
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClockToXX
 <LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
+<LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;systick_delay_ms
 <LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod
 </UL>
 
@@ -297,10 +297,10 @@ Global Symbols
 <P><STRONG><a name="[39]"></a>PM_CreateParam</STRONG> (Thumb, 58 bytes, Stack size 48 bytes, parammate.o(i.PM_CreateParam))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = PM_CreateParam &rArr; PM_SendMessage &rArr; PM_SendPackect &rArr; PM_TranSendByte
 </UL>
-<BR>[Calls]<UL><LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_Strcpy
-<LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_SendMessage
-<LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
+<BR>[Calls]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 <LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_Strcpy
+<LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_SendMessage
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Window_init
 </UL>
@@ -308,9 +308,9 @@ Global Symbols
 <P><STRONG><a name="[3e]"></a>PM_CreateParamChannels</STRONG> (Thumb, 88 bytes, Stack size 72 bytes, parammate.o(i.PM_CreateParamChannels))
 <BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = PM_CreateParamChannels &rArr; PM_SendMessage &rArr; PM_SendPackect &rArr; PM_TranSendByte
 </UL>
-<BR>[Calls]<UL><LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_Strcpy
+<BR>[Calls]<UL><LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_Strcpy
 <LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_SendMessage
-<LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Window_init
 </UL>
@@ -318,10 +318,10 @@ Global Symbols
 <P><STRONG><a name="[3f]"></a>PM_CreateWaveform</STRONG> (Thumb, 74 bytes, Stack size 72 bytes, parammate.o(i.PM_CreateWaveform))
 <BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = PM_CreateWaveform &rArr; PM_SendMessage &rArr; PM_SendPackect &rArr; PM_TranSendByte
 </UL>
-<BR>[Calls]<UL><LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_Strcpy
-<LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_SendMessage
-<LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
+<BR>[Calls]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 <LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_Strcpy
+<LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_SendMessage
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Window_init
 </UL>
@@ -329,9 +329,9 @@ Global Symbols
 <P><STRONG><a name="[40]"></a>PM_CreateWaveformChannels</STRONG> (Thumb, 66 bytes, Stack size 48 bytes, parammate.o(i.PM_CreateWaveformChannels))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = PM_CreateWaveformChannels &rArr; PM_SendMessage &rArr; PM_SendPackect &rArr; PM_TranSendByte
 </UL>
-<BR>[Calls]<UL><LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_Strcpy
+<BR>[Calls]<UL><LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_Strcpy
 <LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_SendMessage
-<LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Window_init
 </UL>
@@ -359,8 +359,8 @@ Global Symbols
 <P><STRONG><a name="[43]"></a>PM_RevHandle</STRONG> (Thumb, 518 bytes, Stack size 16 bytes, pm_commprot.o(i.PM_RevHandle))
 <BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = PM_RevHandle &rArr; __aeabi_idivmod &rArr; __aeabi_uidivmod
 </UL>
-<BR>[Calls]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_ResetPackage
-<LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod
+<BR>[Calls]<UL><LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod
+<LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_ResetPackage
 </UL>
 <BR>[Called By]<UL><LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_IRQHandler
 </UL>
@@ -392,10 +392,10 @@ Global Symbols
 <P><STRONG><a name="[48]"></a>PM_SendParamData</STRONG> (Thumb, 198 bytes, Stack size 32 bytes, parammate.o(i.PM_SendParamData))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = PM_SendParamData &rArr; PM_SendMessage &rArr; PM_SendPackect &rArr; PM_TranSendByte
 </UL>
-<BR>[Calls]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_SendMessage
-<LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
+<BR>[Calls]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 <LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free
 <LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod
+<LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_SendMessage
 </UL>
 <BR>[Called By]<UL><LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -403,10 +403,10 @@ Global Symbols
 <P><STRONG><a name="[4a]"></a>PM_SendWaveformData</STRONG> (Thumb, 104 bytes, Stack size 24 bytes, parammate.o(i.PM_SendWaveformData))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = PM_SendWaveformData &rArr; PM_SendMessage &rArr; PM_SendPackect &rArr; PM_TranSendByte
 </UL>
-<BR>[Calls]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_SendMessage
-<LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
+<BR>[Calls]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 <LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free
 <LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod
+<LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PM_SendMessage
 </UL>
 <BR>[Called By]<UL><LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -580,9 +580,9 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = mpu6050_init &rArr; mpu6050_self1_check &rArr; simiic_read_reg &rArr; send_ch &rArr; sccb_waitack &rArr; gpio_dir
 </UL>
 <BR>[Calls]<UL><LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;systick_delay_ms
+<LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu6050_self1_check
 <LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;simiic_write_reg
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;simiic_init
-<LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu6050_self1_check
 </UL>
 <BR>[Called By]<UL><LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>

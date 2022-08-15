@@ -200,7 +200,6 @@ class UiSerialTool(QGroupBox):
         :param dat:
         :return:
         """
-        print(dat.hex())
         self.Ser.write(dat)
 
 
