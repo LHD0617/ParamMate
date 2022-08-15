@@ -81,9 +81,9 @@ typedef	PM_uint8					PM_err;				/* ´íÎóÂë */
 
 /* @enum RWMode_Type */
 typedef enum{
-	R_Type,												/* Ö»¶Á */
-	W_Type,												/* Ö»Ð´ */
-	RW_Type,											/* ¶ÁÐ´ */
+	R_Type	=	1,										/* Ö»¶Á */
+	W_Type	=	2,										/* Ö»Ð´ */
+	RW_Type	=	3,										/* ¶ÁÐ´ */
 }RWMode_Type;
 
 /* @enum Data_Type */

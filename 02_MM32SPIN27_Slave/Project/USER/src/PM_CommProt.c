@@ -125,116 +125,113 @@ void PM_SendBinImage(PM_Image_t* PM_Image)
 PM_RevCommMsg_t RevCommMsg;
 void PM_RevHandle(PM_Param_t* Param, PM_uint8 dat)
 {
-	if(RevCommMsg.RevEnd == 0)
+	if(dat == PM_PACKAGEHEAD)
 	{
-		if(dat == PM_PACKAGEHEAD)
+		PM_ResetPackage();
+		RevCommMsg.Head = PM_PACKAGEHEAD;
+		RevCommMsg.RevLen++;
+	}
+	else if(dat == 0x7B)
+	{
+		RevCommMsg.TranFlag = 1;
+	}
+	else
+	{
+		if(RevCommMsg.TranFlag)
 		{
-			PM_ResetPackage();
-			RevCommMsg.Head = PM_PACKAGEHEAD;
-			RevCommMsg.RevLen++;
-		}
-		else if(dat == 0x7B)
-		{
-			RevCommMsg.TranFlag = 1;
-		}
-		else
-		{
-			if(RevCommMsg.TranFlag)
+			RevCommMsg.TranFlag = 0;
+			if(dat == 0x01 || dat == 0x00)
 			{
-				RevCommMsg.TranFlag = 0;
-				if(dat == 0x01 || dat == 0x00)
-				{
-					if(RevCommMsg.Head == 0x7A)
-					{
-						RevCommMsg.RevLen++;
-						switch(RevCommMsg.RevLen)
-						{
-						case 2:
-							RevCommMsg.Type = 0x7A + dat;
-							break;
-						case 3:
-							RevCommMsg.ID =  0x7A + dat;
-							break;
-						case 4:
-							RevCommMsg.Length += 0x7A + dat;
-							break;
-						case 5:
-							RevCommMsg.Length += (0x7A + dat) << 8;
-							break;
-						default:
-							RevCommMsg.DataBuf[RevCommMsg.RevLen - 6] = 0x7A + dat;
-							if(RevCommMsg.RevLen >= RevCommMsg.Length + 5)
-							{
-								RevCommMsg.RevEnd = 1;
-								if(RevCommMsg.ID == Param -> ID && RevCommMsg.DataBuf[0] < Param -> Channels)
-								{
-									PM_uint8 BitWidth;
-									if(Param -> DataType[RevCommMsg.DataBuf[0]] == 6)
-									{
-										BitWidth = 4;
-									}
-									else
-									{
-										BitWidth = 0x01 << (Param -> DataType[RevCommMsg.DataBuf[0]] % 3);
-									}
-									for(PM_uint8 i = 0; i < BitWidth; i++)
-									{
-										*((PM_uint8*)Param -> DataAddrList[RevCommMsg.DataBuf[0]] + i) = RevCommMsg.DataBuf[i + 1];
-									}
-								}
-								RevCommMsg.RevEnd = 0;
-							}
-						}
-					}
-				}
-				else
-				{
-					PM_ResetPackage();
-				}
-			}
-			else
-			{
-				if(RevCommMsg.Head == PM_PACKAGEHEAD)
+				if(RevCommMsg.Head == 0x7A)
 				{
 					RevCommMsg.RevLen++;
 					switch(RevCommMsg.RevLen)
 					{
-						case 2:
-							RevCommMsg.Type = dat;
-							break;
-						case 3:
-							RevCommMsg.ID = dat;
-							break;
-						case 4:
-							RevCommMsg.Length += dat;
-							break;
-						case 5:
-							RevCommMsg.Length += dat << 8;
-							break;
-						default:
-							RevCommMsg.DataBuf[RevCommMsg.RevLen - 6] = dat;
-							if(RevCommMsg.RevLen >= RevCommMsg.Length + 5)
+					case 2:
+						RevCommMsg.Type = 0x7A + dat;
+						break;
+					case 3:
+						RevCommMsg.ID =  0x7A + dat;
+						break;
+					case 4:
+						RevCommMsg.Length += 0x7A + dat;
+						break;
+					case 5:
+						RevCommMsg.Length += (0x7A + dat) << 8;
+						break;
+					default:
+						RevCommMsg.DataBuf[RevCommMsg.RevLen - 6] = 0x7A + dat;
+						if(RevCommMsg.RevLen >= RevCommMsg.Length + 5)
+						{
+							RevCommMsg.RevEnd = 1;
+							if(RevCommMsg.ID == Param -> ID && RevCommMsg.DataBuf[0] < Param -> Channels)
 							{
-								RevCommMsg.RevEnd = 1;
-								if(RevCommMsg.ID == Param -> ID && RevCommMsg.DataBuf[0] < Param -> Channels)
+								PM_uint8 BitWidth;
+								if(Param -> DataType[RevCommMsg.DataBuf[0]] == 6)
 								{
-									PM_uint8 BitWidth;
-									if(Param -> DataType[RevCommMsg.DataBuf[0]] == 6)
-									{
-										BitWidth = 4;
-									}
-									else
-									{
-										BitWidth = 0x01 << (Param -> DataType[RevCommMsg.DataBuf[0]] % 3);
-									}
-									for(PM_uint8 i = 0; i < BitWidth; i++)
-									{
-										*((PM_uint8*)Param -> DataAddrList[RevCommMsg.DataBuf[0]] + i) = (PM_uint8)RevCommMsg.DataBuf[i + 1];
-									}
+									BitWidth = 4;
 								}
-								RevCommMsg.RevEnd = 0;
+								else
+								{
+									BitWidth = 0x01 << (Param -> DataType[RevCommMsg.DataBuf[0]] % 3);
+								}
+								for(PM_uint8 i = 0; i < BitWidth; i++)
+								{
+									*((PM_uint8*)Param -> DataAddrList[RevCommMsg.DataBuf[0]] + i) = RevCommMsg.DataBuf[i + 1];
+								}
 							}
+							RevCommMsg.RevEnd = 0;
+						}
 					}
+				}
+			}
+			else
+			{
+				PM_ResetPackage();
+			}
+		}
+		else
+		{
+			if(RevCommMsg.Head == PM_PACKAGEHEAD)
+			{
+				RevCommMsg.RevLen++;
+				switch(RevCommMsg.RevLen)
+				{
+					case 2:
+						RevCommMsg.Type = dat;
+						break;
+					case 3:
+						RevCommMsg.ID = dat;
+						break;
+					case 4:
+						RevCommMsg.Length += dat;
+						break;
+					case 5:
+						RevCommMsg.Length += dat << 8;
+						break;
+					default:
+						RevCommMsg.DataBuf[RevCommMsg.RevLen - 6] = dat;
+						if(RevCommMsg.RevLen >= RevCommMsg.Length + 5)
+						{
+							RevCommMsg.RevEnd = 1;
+							if(RevCommMsg.ID == Param -> ID && RevCommMsg.DataBuf[0] < Param -> Channels)
+							{
+								PM_uint8 BitWidth;
+								if(Param -> DataType[RevCommMsg.DataBuf[0]] == 6)
+								{
+									BitWidth = 4;
+								}
+								else
+								{
+									BitWidth = 0x01 << (Param -> DataType[RevCommMsg.DataBuf[0]] % 3);
+								}
+								for(PM_uint8 i = 0; i < BitWidth; i++)
+								{
+									*((PM_uint8*)Param -> DataAddrList[RevCommMsg.DataBuf[0]] + i) = (PM_uint8)RevCommMsg.DataBuf[i + 1];
+								}
+							}
+							RevCommMsg.RevEnd = 0;
+						}
 				}
 			}
 		}

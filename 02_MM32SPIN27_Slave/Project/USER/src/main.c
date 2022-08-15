@@ -89,7 +89,7 @@ void Window_init(void)
 	PM_Param = PM_CreateParam(37, "Test_param");
 	PM_CreateParamChannels(PM_Param, "Test1", RW_Type, int8_Type, &test1);
 	PM_CreateParamChannels(PM_Param, "Test2", R_Type, int16_Type, &test2);
-	PM_CreateParamChannels(PM_Param, "Test3", RW_Type, int32_Type, &test3);
+	PM_CreateParamChannels(PM_Param, "Test3", W_Type, int32_Type, &test3);
 	PM_CreateParamChannels(PM_Param, "Test4", RW_Type, uint8_Type, &test4);
 	PM_CreateParamChannels(PM_Param, "Test5", RW_Type, uint16_Type, &test5);
 	PM_CreateParamChannels(PM_Param, "Test6", RW_Type, uint32_Type, &test6);
