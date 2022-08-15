@@ -9,13 +9,13 @@
 """
 import struct
 import sys
-
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtChart import QLineSeries, QChartView, QChart, QSplineSeries, QBarSeries, QValueAxis, QBarSet
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import QGroupBox
-
 from MessageClass import MessageClass
+
+
 
 SeriesTypeStrList = ('折线图', '样条线图', '条形图')
 DataTypeStrList = ('uint8', 'uint16', 'uint32', 'int8', 'int16', 'int32', 'float')
@@ -183,6 +183,10 @@ class MyWaveform(QGroupBox):
         self.Chart.wheelEvent = self.WheelEvent
 
     def SwitchAdaptive(self):
+        """
+        选择开启自适应模式
+        :return:
+        """
         if self.SwitchAdaptiveFlag:
             self.SwitchAdaptiveFlag = False
             self.YaxisShrinkPbtn.setEnabled(True)
@@ -197,15 +201,30 @@ class MyWaveform(QGroupBox):
             self.SwitchAdaptivePbtn.setText("关闭自适应")
 
     def MousePressEvent(self, event):
+        """
+        鼠标单击事件 记录当前y坐标
+        :param event:
+        :return:
+        """
         self.MouseYPos = event.pos().y()
         self.LastYAxisOffset = self.YAxisOffset
 
     def MouseMoveEvent(self, event):
+        """
+        鼠标移动事件 记录y坐标变化量
+        :param event:
+        :return:
+        """
         if not self.SwitchAdaptiveFlag:
             self.YAxisOffset = self.LastYAxisOffset + self.MouseYPos - event.pos().y()
             self.SetYAxisRange()
 
     def WheelEvent(self, event):
+        """
+        鼠标滚轮事件  缩放y轴
+        :param event:
+        :return:
+        """
         if not self.SwitchAdaptiveFlag:
             if event.delta() == 120:
                 self.YAxisZoom()
@@ -213,35 +232,64 @@ class MyWaveform(QGroupBox):
                 self.YAxisShrink()
 
     def XAxisZoom(self):
+        """
+        X轴放大
+        :return:
+        """
         if self.XAxisRange - 50 >= MinXAxisRange:
             self.XAxisRange -= 50
             self.SetXAxisRange()
 
     def XAxisShrink(self):
+        """
+        X轴缩小
+        :return:
+        """
         if self.XAxisRange + 50 <= MaxXAxisRange:
             self.XAxisRange += 50
             self.SetXAxisRange()
 
     def YAxisZoom(self):
+        """
+        Y轴放大
+        :return:
+        """
         if self.YAxisRange >> 1 >= MinYAxisRange:
             self.YAxisRange >>= 1
             self.SetYAxisRange()
 
     def YAxisShrink(self):
+        """
+        Y轴缩小
+        :return:
+        """
         if self.YAxisRange << 1 <= MaxYAxisRange:
             self.YAxisRange <<= 1
             self.SetYAxisRange()
 
     def YAxisResetZero(self, event):
+        """
+        Y轴归0
+        :param event:
+        :return:
+        """
         self.YAxisOffset = 0
 
     def SetXAxisRange(self):
+        """
+        设置X轴范围
+        :return:
+        """
         if self.SysDataCount < self.XAxisRange:
             self.AxisX.setRange(0, self.XAxisRange)
         else:
             self.AxisX.setRange(self.SysDataCount - self.XAxisRange, self.SysDataCount)
 
     def SetYAxisRange(self):
+        """
+        设置Y轴范围
+        :return:
+        """
         if self.SwitchAdaptiveFlag:
             self.AxisY.setMax(self.MaxValue)
             self.AxisY.setMin(self.MinValue)
@@ -251,6 +299,11 @@ class MyWaveform(QGroupBox):
             self.AxisY.setRange(-self.YAxisRange - Offset, self.YAxisRange - Offset)
 
     def AddChannels(self, Name=''):
+        """
+        添加通道
+        :param Name:
+        :return:
+        """
         if self.SeriesType == 0x00:  # 折线图
             LineSeries = QLineSeries()
             LineSeries.setUseOpenGL(True)
@@ -285,6 +338,11 @@ class MyWaveform(QGroupBox):
         self.ChannelsLab.setText("通道数：%d" % len(self.SeriesList))
 
     def InputData(self, Data: bytes):
+        """
+        输入数据
+        :param Data:
+        :return:
+        """
         if len(Data) == self.Channels * self.UnitChannelSize:
             # 获取数据并添加到各个通道
             for i in range(self.Channels):

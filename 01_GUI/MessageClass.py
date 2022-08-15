@@ -16,6 +16,11 @@ class MessageClass:
     Time: str  # 消息时间
 
     def __init__(self, Name='Unknown Name', Message=''):
+        """
+        初始化函数
+        :param Name:
+        :param Message:
+        """
         self.Name = Name
         self.Time = time.strftime('%H:%M:%S', time.localtime())
         self.Message = '%s  %32s:%s' % (self.Time, self.Name, Message)

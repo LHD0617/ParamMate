@@ -33,10 +33,10 @@ MAXVALUE = 2147483647
 
 
 class ParamSubClass(QWidget):
-    Index: int
-    DataType: int
-    ModeType: int
-    SendDataSignal = pyqtSignal(bytes)
+    Index: int  # 通道编号
+    DataType: int  # 数据类型
+    ModeType: int  # 读写模式
+    SendDataSignal = pyqtSignal(bytes)  # 发送数据信号
 
     def __init__(self, Name='', DataType=0, ModeType=0, Index=0):
         super(ParamSubClass, self).__init__()
@@ -74,6 +74,10 @@ class ParamSubClass(QWidget):
         self.setLayout(Layout)
 
     def OutputData(self):
+        """
+        输出数据
+        :return:
+        """
         dat = self.Index.to_bytes(1, 'little', signed=False)
         num = self.DataSBox.value()
         if type(num) == int:
@@ -101,6 +105,10 @@ class MyParam(QGroupBox):
         self.setTitle(Name)
 
     def setupUi(self):
+        """
+        UI初始化
+        :return:
+        """
         self.setObjectName("Param")
         self.resize(600, 400)
         self.setObjectName("ParamGbox")
@@ -108,6 +116,13 @@ class MyParam(QGroupBox):
         self.SubLayout.setObjectName("SubLayout")
 
     def AddChannels(self, Name='', DataType=0, ModeType=0):
+        """
+        添加通道
+        :param Name:
+        :param DataType:
+        :param ModeType:
+        :return:
+        """
         ParamSubNum = len(self.ParamSubList)
         ParamSub = ParamSubClass(Name=Name, DataType=DataType, ModeType=ModeType, Index=ParamSubNum)
         ParamSub.SendDataSignal.connect(self.OutputData)
@@ -121,6 +136,11 @@ class MyParam(QGroupBox):
             self.DataLen += 0x01 << (DataType % 3)
 
     def InputData(self, Data: bytes):
+        """
+        输入数据
+        :param Data:
+        :return:
+        """
         if len(Data) == self.DataLen:
             DataIndex = 0
             for i in range(len(self.ParamSubList)):
@@ -142,6 +162,11 @@ class MyParam(QGroupBox):
             self.LogSignal.emit(MessageClass(self.Name, '数据接收错误'))
 
     def OutputData(self, dat: bytes):
+        """
+        输出数据
+        :param dat:
+        :return:
+        """
         self.SendDataSignal.emit(0x40, self.ID, dat)
 
 

@@ -235,6 +235,13 @@ class UiParamMateUI(QMainWindow):
             self.CommProt.InputByte(Byte)
 
     def SendData(self, Type: int, ID: int, dat: bytes):
+        """
+        数据发送函数
+        :param Type:
+        :param ID:
+        :param dat:
+        :return:
+        """
         self.SerialTool.OutputData(self.CommProt.OutputByte(Type, ID, dat))
 
 

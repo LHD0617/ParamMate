@@ -36,6 +36,9 @@ class UiSerialTool(QGroupBox):
     LogSignal = pyqtSignal(MessageClass)
 
     def __init__(self):
+        """
+        初始化函数
+        """
         self.Name = 'SerialTool'
         self.SwitchPortFlag = False
         self.PortList = []
@@ -46,6 +49,11 @@ class UiSerialTool(QGroupBox):
         self.RefreshPortTimer.start(100)
 
     def setupUi(self, SerialTool):
+        """
+        UI页面初始化
+        :param SerialTool:
+        :return:
+        """
         SerialTool.setObjectName("SerialTool")
         SerialTool.resize(200, 800)
         self.setMaximumSize(QtCore.QSize(200, 16777215))
@@ -93,6 +101,11 @@ class UiSerialTool(QGroupBox):
         QtCore.QMetaObject.connectSlotsByName(SerialTool)
 
     def retranslateUi(self, SerialTool):
+        """
+        文本初始化
+        :param SerialTool:
+        :return:
+        """
         _translate = QtCore.QCoreApplication.translate
         SerialTool.setWindowTitle(_translate("SerialTool", "Form"))
         self.setTitle(_translate("SerialTool", "串口配置"))
@@ -111,10 +124,18 @@ class UiSerialTool(QGroupBox):
         self.StopBitCbox.addItems(self.StopBitList)
 
     def SetSignalFunction(self):
+        """
+        设置信号槽
+        :return:
+        """
         self.PortSwitchPbtn.clicked.connect(self.SwitchPort)
         self.RefreshPortTimer.timeout.connect(self.RefreshPort)
 
     def RefreshPort(self):
+        """
+        刷新串口
+        :return:
+        """
         if not self.SwitchPortFlag:
             TempPortList = list(QSerialPortInfo.availablePorts())
             TempPortNameList = []
@@ -133,6 +154,10 @@ class UiSerialTool(QGroupBox):
                 self.SwitchPort()
 
     def SwitchPort(self):
+        """
+        开关串口
+        :return:
+        """
         com = self.PortCbox.currentText()
         if not self.SwitchPortFlag:
             if len(com) > 0:
@@ -170,6 +195,11 @@ class UiSerialTool(QGroupBox):
             self.LogSignal.emit(MessageClass(self.Name, '%s已关闭' % com))
 
     def OutputData(self, dat: bytes):
+        """
+        输出数据
+        :param dat:
+        :return:
+        """
         print(dat.hex())
         self.Ser.write(dat)
 
