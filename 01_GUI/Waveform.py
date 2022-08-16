@@ -364,8 +364,9 @@ class MyWaveform(QGroupBox):
                 if self.SeriesType == 2:
                     self.SeriesList[i].replace(0, ChannelData)
                 # 达到最大数据量清除缓存
-                if self.SysDataCount % MaxDataLen == 0 and self.SysDataCount > MaxDataLen:
-                    self.SeriesList[i].removePoints(0, MaxDataLen)
+                if self.SeriesType == 0 or self.SeriesType == 1:
+                    if self.SysDataCount % MaxDataLen == 0 and self.SysDataCount > MaxDataLen:
+                        self.SeriesList[i].removePoints(0, MaxDataLen)
             # Y轴显示范围
             self.SetYAxisRange()
             if self.SeriesType == 0 or self.SeriesType == 1:

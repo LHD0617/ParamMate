@@ -78,5 +78,5 @@
 .\objects\main.o: ..\..\Libraries\seekfree_peripheral\SEEKFREE_MT9V03X.h
 .\objects\main.o: ..\USER\inc\Nixie_Tube.h
 .\objects\main.o: ..\USER\inc\SMG.h
-.\objects\main.o: ..\USER\inc\ParamMate.h
+.\objects\main.o: ..\CODE\ParamMate.h
 .\objects\main.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h

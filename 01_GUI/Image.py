@@ -94,52 +94,61 @@ class MyImage(QGroupBox):
         self.ImageTypeLab.setText(_translate("Form", "图像类型：%s" % ImageTypeStrList[self.ImageType]))
 
     def InputData(self, Data: bytes):
-        if self.ImageType == 0:     # 二值化图
-            image = np.zeros((self.ImageHeight * 5, self.ImageWidth * 5), np.uint8)
-            for i in range(self.ImageHeight):
-                for j in range(self.ImageWidth):
-                    if Data[(i * self.ImageWidth + j) // 8] & (0b10000000 >> ((i * self.ImageWidth + j) % 8)):
-                        image[i * 5:(i + 1) * 5, j * 5:(j + 1) * 5] = 255
-                    else:
-                        image[i * 5:(i + 1) * 5, j * 5:(j + 1) * 5] = 0
-            if self.ImageGridCbox.isChecked():
-                for i in range(5, int(self.ImageHeight) * 5, 5):
-                    image[i, 0:int(self.ImageWidth) * 5] = 100
-                for i in range(5, int(self.ImageWidth) * 5, 5):
-                    image[0:int(self.ImageHeight) * 5, i] = 100
-            self.Image = QImage(image, image.shape[1], image.shape[0], image.shape[1], QImage.Format_Grayscale8)
-        if self.ImageType == 1:     # 灰度图
-            image = np.zeros((self.ImageHeight * 5, self.ImageWidth * 5), np.uint8)
-            for i in range(self.ImageHeight):
-                for j in range(self.ImageWidth):
-                    image[i * 5: (i + 1) * 5, j * 5: (j + 1) * 5] = Data[i * self.ImageWidth + j]
-            if self.ImageGridCbox.isChecked():
-                for i in range(5, int(self.ImageHeight) * 5, 5):
-                    image[i, 0:int(self.ImageWidth) * 5] = 100
-                for i in range(5, int(self.ImageWidth) * 5, 5):
-                    image[0:int(self.ImageHeight) * 5, i] = 100
-            self.Image = QImage(image, image.shape[1], image.shape[0], image.shape[1], QImage.Format_Grayscale8)
-        if self.ImageType == 2:     # RGB565彩图
-            image = np.zeros((self.ImageHeight * 5, self.ImageWidth * 5), np.uint16)
-            for i in range(self.ImageHeight):
-                for j in range(self.ImageWidth):
-                    Uint16Data = int.from_bytes(
-                        Data[i * self.ImageWidth * 2 + j * 2: i * self.ImageWidth * 2 + (j * 2) + 1 + 2], 'little')
-                    image[i * 5: (i + 1) * 5, j * 5: (j + 1) * 5] = Uint16Data
-            if self.ImageGridCbox.isChecked():
-                for i in range(5, int(self.ImageHeight) * 5, 5):
-                    image[i, 0:int(self.ImageWidth) * 5] = 100
-                for i in range(5, int(self.ImageWidth) * 5, 5):
-                    image[0:int(self.ImageHeight) * 5, i] = 16904
-            self.Image = QImage(image, self.ImageWidth * 5, self.ImageHeight * 5, QImage.Format_RGB16)
-        self.ImageLab.setPixmap(QPixmap.fromImage(self.Image))
-        if self.AdaptCbox.isChecked():
-            self.ImageLab.setScaledContents(True)
+        if self.ImageType == 0:
+            DataLen = self.ImageHeight * self.ImageWidth // 8
+            if self.ImageHeight * self.ImageWidth % 8 > 0:
+                DataLen += 1
         else:
-            self.ImageLab.setScaledContents(False)
-        if self.SaveImageCbox.isChecked():
-            self.SaveImage(0)
-        self.Count += 1
+            DataLen = self.ImageHeight * self.ImageWidth * self.ImageType
+        if len(Data) == DataLen:
+            if self.ImageType == 0:     # 二值化图
+                image = np.zeros((self.ImageHeight * 5, self.ImageWidth * 5), np.uint8)
+                for i in range(self.ImageHeight):
+                    for j in range(self.ImageWidth):
+                        if Data[(i * self.ImageWidth + j) // 8] & (0b10000000 >> ((i * self.ImageWidth + j) % 8)):
+                            image[i * 5:(i + 1) * 5, j * 5:(j + 1) * 5] = 255
+                        else:
+                            image[i * 5:(i + 1) * 5, j * 5:(j + 1) * 5] = 0
+                if self.ImageGridCbox.isChecked():
+                    for i in range(5, int(self.ImageHeight) * 5, 5):
+                        image[i, 0:int(self.ImageWidth) * 5] = 100
+                    for i in range(5, int(self.ImageWidth) * 5, 5):
+                        image[0:int(self.ImageHeight) * 5, i] = 100
+                self.Image = QImage(image, image.shape[1], image.shape[0], image.shape[1], QImage.Format_Grayscale8)
+            if self.ImageType == 1:     # 灰度图
+                image = np.zeros((self.ImageHeight * 5, self.ImageWidth * 5), np.uint8)
+                for i in range(self.ImageHeight):
+                    for j in range(self.ImageWidth):
+                        image[i * 5: (i + 1) * 5, j * 5: (j + 1) * 5] = Data[i * self.ImageWidth + j]
+                if self.ImageGridCbox.isChecked():
+                    for i in range(5, int(self.ImageHeight) * 5, 5):
+                        image[i, 0:int(self.ImageWidth) * 5] = 100
+                    for i in range(5, int(self.ImageWidth) * 5, 5):
+                        image[0:int(self.ImageHeight) * 5, i] = 100
+                self.Image = QImage(image, image.shape[1], image.shape[0], image.shape[1], QImage.Format_Grayscale8)
+            if self.ImageType == 2:     # RGB565彩图
+                image = np.zeros((self.ImageHeight * 5, self.ImageWidth * 5), np.uint16)
+                for i in range(self.ImageHeight):
+                    for j in range(self.ImageWidth):
+                        Uint16Data = int.from_bytes(
+                            Data[i * self.ImageWidth * 2 + j * 2: i * self.ImageWidth * 2 + (j * 2) + 1 + 2], 'little')
+                        image[i * 5: (i + 1) * 5, j * 5: (j + 1) * 5] = Uint16Data
+                if self.ImageGridCbox.isChecked():
+                    for i in range(5, int(self.ImageHeight) * 5, 5):
+                        image[i, 0:int(self.ImageWidth) * 5] = 100
+                    for i in range(5, int(self.ImageWidth) * 5, 5):
+                        image[0:int(self.ImageHeight) * 5, i] = 16904
+                self.Image = QImage(image, self.ImageWidth * 5, self.ImageHeight * 5, QImage.Format_RGB16)
+            self.ImageLab.setPixmap(QPixmap.fromImage(self.Image))
+            if self.AdaptCbox.isChecked():
+                self.ImageLab.setScaledContents(True)
+            else:
+                self.ImageLab.setScaledContents(False)
+            if self.SaveImageCbox.isChecked():
+                self.SaveImage(0)
+            self.Count += 1
+        else:
+            self.LogSignal.emit(MessageClass(self.Name, '数据接收错误'))
 
     def SaveImage(self, event):
         if not os.path.exists('%s_Save_Images' % self.Name):

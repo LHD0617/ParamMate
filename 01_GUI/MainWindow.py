@@ -19,6 +19,7 @@
 import sys
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow, QSplitter
 from typing import List
 from CommProt import CommProtClass, RevDataPackageClass
@@ -66,6 +67,7 @@ class UiParamMateUI(QMainWindow):
         """
         ParamMateUI.setObjectName("ParamMateUI")
         ParamMateUI.resize(1000, 800)
+        ParamMateUI.setWindowIcon(QIcon('02_Icon/1.ico'))
         self.centralwidget = QtWidgets.QWidget(ParamMateUI)
         self.centralwidget.setObjectName("centralwidget")
         self.MainLayout = QtWidgets.QGridLayout(self.centralwidget)

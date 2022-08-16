@@ -21,11 +21,10 @@
 
 
 
-
-PM_Waveform_t* PM_Waveform[1];
 PM_Param_t* PM_Param;
-//PM_Image_t* PM_Image;
-int16 ad;
+PM_Waveform_t* PM_Waveform[3];
+PM_Image_t* PM_Image[2];
+uint16 adc;
 int8 test1 = 1;
 int16 test2 = 0;
 int32 test3 = 0;
@@ -33,13 +32,15 @@ uint8 test4 = 0;
 uint16 test5 = 0;
 uint32 test6 = 0;
 float test7 = 0.0;
-uint8 image[60][90] = {0};
+uint8 testparam[25];
+uint16 Image[50][90] = {0};
 
 
 void Window_init(void);
 
 int main(void)
 {
+	uint16 k = 0;
 	uint8 i,j;
 	board_init(true);
 	uart_rx_irq(UART_1,1);
@@ -47,53 +48,75 @@ int main(void)
 	gpio_init(C0, GPO, 1, GPO_PUSH_PULL);
 	mpu6050_init();
 	Window_init();
+	for(i=0;i<50;i++)
+	{
+		for(j=0;j<90;j++)
+		{
+			Image[i][j] = k;
+			k += 16;
+		}
+	}
 	while(1)
 	{
-		for(i=0;i<60;i++)
-		{
-			for(j=0;j<90;j++)
-			{
-				gpio_toggle(C0);
-				ad = adc_convert(ADC_1, ADC1_CH00_A00) * test1;
-//				image[i][j] = adc & 0x01;
-//				test1 = adc;
-//				test2 = adc - 2048;
-//				test3 = adc + 2048;
-//				test4 = adc + 10;
-//				test5 = adc + 20;
-//				test6 = adc + 30;
-//				test7 += 0.0000001;
-				PM_SendWaveformData(PM_Waveform[0]);
-////				PM_SendWaveformData(PM_Waveform[1]);
-				PM_SendParamData(PM_Param);
-				//PM_SendImageData(PM_Image);
-				systick_delay_ms(20);
-			}
-		}
+		gpio_toggle(C0);
+		
+		/* 更新数据 */
+		adc = adc_convert(ADC_1, ADC1_CH00_A00);
+		get_accdata();
+		get_gyro();
+		
+		/* 发送数据 */
+		PM_SendParamData(PM_Param);
+		PM_SendWaveformData(PM_Waveform[0]);
+		PM_SendWaveformData(PM_Waveform[1]);
+		PM_SendWaveformData(PM_Waveform[2]);
+//		PM_SendImageData(PM_Image[0]);
+//		PM_SendImageData(PM_Image[1]);
+		
+		/* 延时 */
+		systick_delay_ms(20);
 	}
 } 
 
 
 void Window_init(void)
 {
+	/* 复位MainWindow控件 */
 	PM_ResetWindow();
-	PM_Waveform[0] = PM_CreateWaveform(35, "ADC", LineSeries_Type, int16_Type);
-	PM_CreateWaveformChannels(PM_Waveform[0], "ad0", &ad);
-////	PM_CreateWaveformChannels(PM_Waveform[0], "Y_Gyro", &mpu_gyro_y);
-////	PM_CreateWaveformChannels(PM_Waveform[0], "Z_Gyro", &mpu_gyro_z);
-////	PM_Waveform[1] = PM_CreateWaveform(36, "MPU6050_Acc", LineSeries_Type, int16_Type);
-////	PM_CreateWaveformChannels(PM_Waveform[1], "X_Acc", &mpu_acc_x);
-////	PM_CreateWaveformChannels(PM_Waveform[1], "Y_Acc", &mpu_acc_y);
-////	PM_CreateWaveformChannels(PM_Waveform[1], "Z_Acc", &mpu_acc_z);
-	PM_Param = PM_CreateParam(37, "Test_param");
-	PM_CreateParamChannels(PM_Param, "Test1", RW_Type, int8_Type, &test1);
-	PM_CreateParamChannels(PM_Param, "Test2", R_Type, int16_Type, &test2);
-	PM_CreateParamChannels(PM_Param, "Test3", W_Type, int32_Type, &test3);
-	PM_CreateParamChannels(PM_Param, "Test4", RW_Type, uint8_Type, &test4);
-	PM_CreateParamChannels(PM_Param, "Test5", RW_Type, uint16_Type, &test5);
-	PM_CreateParamChannels(PM_Param, "Test6", RW_Type, uint32_Type, &test6);
-	PM_CreateParamChannels(PM_Param, "Test7", RW_Type, float_Type, &test7);
-////	PM_Image = PM_CreateImage(38, "TestImage1", Binarization_Type, 60, 90, image);
+	
+	/* Test_param 控件 */
+	PM_Param = PM_CreateParam(0x00, "Test_param");
+	PM_CreateParamChannels(PM_Param, "Test_Param1",R_Type, int8_Type, &test1);
+	PM_CreateParamChannels(PM_Param, "Test_Param2",W_Type, int16_Type, &test2);
+	PM_CreateParamChannels(PM_Param, "Test_Param3",RW_Type, int32_Type, &test3);
+	PM_CreateParamChannels(PM_Param, "Test_Param4",RW_Type, uint8_Type, &test4);
+	PM_CreateParamChannels(PM_Param, "Test_Param5",RW_Type, uint16_Type, &test5);
+	PM_CreateParamChannels(PM_Param, "Test_Param6",RW_Type, uint32_Type, &test6);
+	PM_CreateParamChannels(PM_Param, "Test_Param7",RW_Type, float_Type, &test7);
+	
+	/* ADC0 控件 */
+	PM_Waveform[0] = PM_CreateWaveform(0x01, "ADC0", LineSeries_Type, uint16_Type);
+	PM_CreateWaveformChannels(PM_Waveform[0], "Test", &adc);
+	
+	/* MPU6050_Gyro 控件 */
+	PM_Waveform[1] = PM_CreateWaveform(0x02, "MPU6050_Gyro", SplineSeries_Type, int16_Type);
+	PM_CreateWaveformChannels(PM_Waveform[1], "GyroX", &mpu_gyro_x);
+	PM_CreateWaveformChannels(PM_Waveform[1], "Gyroy", &mpu_gyro_y);
+	PM_CreateWaveformChannels(PM_Waveform[1], "GyroZ", &mpu_gyro_z);
+	
+	/* MPU6050_Acc 控件 */
+	PM_Waveform[2] = PM_CreateWaveform(0x03, "MPU6050_Acc", BarSeries_Type, int16_Type);
+	PM_CreateWaveformChannels(PM_Waveform[2], "AccX", &mpu_acc_x);
+	PM_CreateWaveformChannels(PM_Waveform[2], "AccY", &mpu_acc_y);
+	PM_CreateWaveformChannels(PM_Waveform[2], "AccZ", &mpu_acc_z);
+	
+	/* Test_RGB565 控件 */
+	PM_Image[0] = PM_CreateImage(0x04, "Test_RGB565", RGB565_Type, 50, 90, Image);
+	
+	/* Test_Grayscale 控件 */
+	PM_Image[1] = PM_CreateImage(0x05, "Test_Grayscale", Grayscale_Type, 50, 90, Image);
+	
+	/* 初始化MainWindow */
 	PM_InitWindow();
 }
 

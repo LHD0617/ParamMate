@@ -471,11 +471,6 @@
               <FileType>1</FileType>
               <FilePath>..\USER\src\SMG.c</FilePath>
             </File>
-            <File>
-              <FileName>ParamMate.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\CODE\ParamMate.lib</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -566,9 +561,19 @@
           <GroupName>CODE</GroupName>
           <Files>
             <File>
-              <FileName>本文件夹作用.txt</FileName>
+              <FileName>ParamMate.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\CODE\ParamMate.lib</FilePath>
+            </File>
+            <File>
+              <FileName>ParamMate.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\CODE\本文件夹作用.txt</FilePath>
+              <FilePath>..\CODE\ParamMate.h</FilePath>
+            </File>
+            <File>
+              <FileName>PM_CommProt.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\PM_CommProt.h</FilePath>
             </File>
           </Files>
         </Group>

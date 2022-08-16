@@ -78,5 +78,5 @@
 .\objects\seekfree_absolute_encoder.o: ..\..\Libraries\seekfree_peripheral\SEEKFREE_MT9V03X.h
 .\objects\seekfree_absolute_encoder.o: ..\USER\inc\Nixie_Tube.h
 .\objects\seekfree_absolute_encoder.o: ..\USER\inc\SMG.h
-.\objects\seekfree_absolute_encoder.o: ..\USER\inc\ParamMate.h
+.\objects\seekfree_absolute_encoder.o: ..\CODE\ParamMate.h
 .\objects\seekfree_absolute_encoder.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h

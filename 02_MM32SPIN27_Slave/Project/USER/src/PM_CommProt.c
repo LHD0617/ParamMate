@@ -117,9 +117,10 @@ void PM_SendBinImage(PM_Image_t* PM_Image)
 /**
 	* @name		PM_RevHandle
 	* @brief  	回传数据处理函数
-	* @param  	void
+	* @param  	Param	参数控件结构体指针
+	* @param  	dat		接收字节
 	* @return 	void
-	* @Sample 
+	* @Sample 	PM_RevHandle(PM_Param, dat)
   */
 #if REV_HANDLE == 1
 PM_RevCommMsg_t RevCommMsg;

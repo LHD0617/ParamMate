@@ -43,7 +43,7 @@ void PM_InitWindow(void)
 	* @param  	ID			控件ID（保证全局唯一性）
 	* @param  	Name		控件名称（标题）
 	* @return 	参数控件结构体指针
-	* @Sample 	
+	* @Sample 	PM_CreateParam(0x00, "Test_param")
   */
 PM_Param_t* PM_CreateParam(PM_uint8 ID, const PM_int8* Name)
 {
@@ -68,7 +68,7 @@ PM_Param_t* PM_CreateParam(PM_uint8 ID, const PM_int8* Name)
 	* @param  	DataType			数据类型
 	* @param  	DataAddr			数据地址
 	* @return 	错误码
-	* @Sample 
+	* @Sample 	PM_CreateParamChannels(PM_Param, "Test1",RW_Type, int8_Type, &test1)
   */
 PM_err PM_CreateParamChannels(PM_Param_t* PM_Param, const PM_int8* Name, RWMode_Type ModeType,Data_Type DataType, void* DataAddr)
 {
@@ -92,7 +92,7 @@ PM_err PM_CreateParamChannels(PM_Param_t* PM_Param, const PM_int8* Name, RWMode_
 	* @param  	SeriesType	控件类型：详见ParamMate.h文件枚举类型
 	* @param  	DataType	数据类型
 	* @return 	示波控件结构体指针
-	* @Sample 	PM_CreateWaveform(0x00, "TEST123456", SplineSeries_Type, uint16_Type);
+	* @Sample 	PM_CreateWaveform(0x00, "Test_Waveform", SplineSeries_Type, uint16_Type)
   */
 PM_Waveform_t* PM_CreateWaveform(PM_uint8 ID, const PM_int8* Name, Series_Type SeriesType, Data_Type DataType)
 {
@@ -119,7 +119,7 @@ PM_Waveform_t* PM_CreateWaveform(PM_uint8 ID, const PM_int8* Name, Series_Type S
 	* @param  	Name				数据名称
 	* @param  	DataAddr			数据地址
 	* @return 	错误码
-	* @Sample 
+	* @Sample 	PM_CreateWaveformChannels(PM_Waveform, "Test", &Test)
   */
 PM_err PM_CreateWaveformChannels(PM_Waveform_t* PM_Waveform, const PM_int8* Name, void* DataAddr)
 {
@@ -137,9 +137,11 @@ PM_err PM_CreateWaveformChannels(PM_Waveform_t* PM_Waveform, const PM_int8* Name
 	* @param  	ID			控件ID（保证全局唯一性）
 	* @param  	Name		控件名称（标题）
 	* @param  	ImageType	图像类型：详见ParamMate.h文件枚举类型
+	* @param  	Height		图像高度
+	* @param  	Width		图像宽度
 	* @param  	DataAddr	图像地址
 	* @return 	图传控件结构体指针
-	* @Sample 	
+	* @Sample 	PM_CreateImage(0x00, "TestImage1", Binarization_Type, 60, 90, image)
   */
 PM_Image_t* PM_CreateImage(PM_uint8 ID, const PM_int8* Name, Image_Type ImageType, PM_uint8 Height, PM_uint8 Width, void* DataAddr)
 {
@@ -168,7 +170,7 @@ PM_Image_t* PM_CreateImage(PM_uint8 ID, const PM_int8* Name, Image_Type ImageTyp
 	* @brief  	发送参数控件数据
 	* @param  	PM_Param	参数控件结构体
 	* @return 	void
-	* @Sample 
+	* @Sample 	PM_SendParamData(PM_Param)
   */
 void PM_SendParamData(PM_Param_t* PM_Param)
 {
@@ -210,9 +212,9 @@ void PM_SendParamData(PM_Param_t* PM_Param)
 /**
 	* @name		PM_SendWaveformData
 	* @brief  	发送示波控件数据
-	* @param  	PM_Param	示波控件结构体
+	* @param  	PM_Waveform	示波控件结构体
 	* @return 	void
-	* @Sample 
+	* @Sample 	PM_SendWaveformData(PM_Waveform)
   */
 void PM_SendWaveformData(PM_Waveform_t* PM_Waveform)
 {
@@ -239,7 +241,7 @@ void PM_SendWaveformData(PM_Waveform_t* PM_Waveform)
 	* @brief  	发送图传控件数据
 	* @param  	PM_Image	图传控件结构体
 	* @return 	void
-	* @Sample 
+	* @Sample 	PM_SendImageData(PM_Image)
   */
 void PM_SendImageData(PM_Image_t* PM_Image)
 {
