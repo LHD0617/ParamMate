@@ -560,16 +560,6 @@
               <FileType>5</FileType>
               <FilePath>..\USER\inc\Nixie_Tube.h</FilePath>
             </File>
-            <File>
-              <FileName>PM_CommProt.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\USER\inc\PM_CommProt.h</FilePath>
-            </File>
-            <File>
-              <FileName>ParamMate.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\USER\inc\ParamMate.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
