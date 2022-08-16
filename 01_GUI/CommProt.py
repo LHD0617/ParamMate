@@ -12,7 +12,7 @@ from PyQt5.QtCore import pyqtSignal, QObject, QTimer
 
 from MessageClass import MessageClass
 
-MAX_TIME_OUT = 5
+MAX_TIME_OUT = 50
 
 
 class RevDataPackageClass:

@@ -70,8 +70,8 @@ int main(void)
 		PM_SendWaveformData(PM_Waveform[0]);
 		PM_SendWaveformData(PM_Waveform[1]);
 		PM_SendWaveformData(PM_Waveform[2]);
-//		PM_SendImageData(PM_Image[0]);
-//		PM_SendImageData(PM_Image[1]);
+		PM_SendImageData(PM_Image[0]);
+		PM_SendImageData(PM_Image[1]);
 		
 		/* 延时 */
 		systick_delay_ms(20);
@@ -114,7 +114,7 @@ void Window_init(void)
 	PM_Image[0] = PM_CreateImage(0x04, "Test_RGB565", RGB565_Type, 50, 90, Image);
 	
 	/* Test_Grayscale 控件 */
-	PM_Image[1] = PM_CreateImage(0x05, "Test_Grayscale", Grayscale_Type, 50, 90, Image);
+	PM_Image[1] = PM_CreateImage(0x05, "Test_Grayscale", Binarization_Type, 50, 90, Image);
 	
 	/* 初始化MainWindow */
 	PM_InitWindow();
