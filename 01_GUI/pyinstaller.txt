@@ -1,0 +1,1 @@
+pyinstaller MainWindow.py -w -i 02_Icon\1.ico -n ParamMate_Tools
