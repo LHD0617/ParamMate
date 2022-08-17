@@ -57,6 +57,7 @@ class CommProtClass(QObject):
         if self.RevDataPackage.Head == 0x7a and not self.RevDataPackage.RevEnd:
             if self.TimeOut < MAX_TIME_OUT:
                 self.TimeOut += 1
+                print(self.TimeOut)
             else:
                 self.LogSignal.emit(MessageClass(self.Name, '接收超时'))
                 self.RevDataPackage.ResetPackage()

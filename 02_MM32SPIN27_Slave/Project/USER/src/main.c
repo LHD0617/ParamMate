@@ -66,11 +66,11 @@ int main(void)
 		get_gyro();
 		
 		/* 发送数据 */
-		PM_SendParamData(PM_Param);
-		PM_SendWaveformData(PM_Waveform[0]);
-		PM_SendWaveformData(PM_Waveform[1]);
-		PM_SendWaveformData(PM_Waveform[2]);
-		PM_SendImageData(PM_Image[0]);
+//		PM_SendParamData(PM_Param);
+//		PM_SendWaveformData(PM_Waveform[0]);
+//		PM_SendWaveformData(PM_Waveform[1]);
+//		PM_SendWaveformData(PM_Waveform[2]);
+//		PM_SendImageData(PM_Image[0]);
 		PM_SendImageData(PM_Image[1]);
 		
 		/* 延时 */

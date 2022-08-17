@@ -106,7 +106,7 @@ class UiParamMateUI(QMainWindow):
         设置信号槽
         :return:
         """
-        self.SerialTool.Ser.readyRead.connect(self.ReceiveData)
+        self.SerialTool.readyRead.connect(self.ReceiveData)
         self.SerialTool.LogSignal.connect(self.ShowMessage)
         self.CommProt.RevFinishSignal.connect(self.CommandParsing)
         self.CommProt.LogSignal.connect(self.ShowMessage)
@@ -228,13 +228,12 @@ class UiParamMateUI(QMainWindow):
         """
         self.statusbar.showMessage(Message.Message, 2000)
 
-    def ReceiveData(self):
+    def ReceiveData(self, ByteList: bytes):
         """
         接收数据函数
         :return:
         """
-        BytesList = self.SerialTool.Ser.readAll()
-        for Byte in BytesList:
+        for Byte in ByteList:
             self.CommProt.InputByte(Byte)
 
     def SendData(self, Type: int, ID: int, dat: bytes):
