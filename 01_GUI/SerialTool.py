@@ -178,7 +178,7 @@ class UiSerialTool(QGroupBox):
             if len(com) > 0:
                 try:
                     self.Ser = serial.Serial(port=com, baudrate=baud, bytesize=bytesize, stopbits=stop, parity=check,
-                                             timeout=0.015)
+                                             timeout=0.025)
                 except:
                     self.LogSignal.emit(MessageClass(self.Name, '%s打开失败' % com))
                 if self.Ser.is_open:
@@ -211,10 +211,14 @@ class UiSerialTool(QGroupBox):
             self.LogSignal.emit(MessageClass(self.Name, '%s已关闭' % com))
 
     def ReceiveData(self):
-        count = self.Ser.in_waiting
-        if count > 0:
-            dat = self.Ser.read(count)
-            self.readyRead.emit(dat)
+        try:
+            count = self.Ser.in_waiting
+            print(count)
+            if count > 0:
+                dat = self.Ser.read(count)
+                self.readyRead.emit(dat)
+        except:
+            self.SwitchPort()
 
     def OutputData(self, dat: bytes):
         """

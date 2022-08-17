@@ -12,7 +12,7 @@ from PyQt5.QtCore import pyqtSignal, QObject, QTimer
 
 from MessageClass import MessageClass
 
-MAX_TIME_OUT = 50
+MAX_TIME_OUT = 5
 
 
 class RevDataPackageClass:
@@ -57,8 +57,8 @@ class CommProtClass(QObject):
         if self.RevDataPackage.Head == 0x7a and not self.RevDataPackage.RevEnd:
             if self.TimeOut < MAX_TIME_OUT:
                 self.TimeOut += 1
-                print(self.TimeOut)
             else:
+                print(self.RevDataPackage.RevLen, ', ', self.RevDataPackage.Length)
                 self.LogSignal.emit(MessageClass(self.Name, '接收超时'))
                 self.RevDataPackage.ResetPackage()
 
