@@ -213,7 +213,6 @@ class UiSerialTool(QGroupBox):
     def ReceiveData(self):
         try:
             count = self.Ser.in_waiting
-            print(count)
             if count > 0:
                 dat = self.Ser.read(count)
                 self.readyRead.emit(dat)

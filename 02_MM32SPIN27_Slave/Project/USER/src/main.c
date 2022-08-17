@@ -87,7 +87,7 @@ int main(void)
 		PM_SendImageData(PM_Image[1]);
 		
 		/* —” ± */
-		systick_delay_ms(20);
+		systick_delay_ms(5);
 	}
 } 
 

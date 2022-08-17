@@ -58,7 +58,6 @@ class CommProtClass(QObject):
             if self.TimeOut < MAX_TIME_OUT:
                 self.TimeOut += 1
             else:
-                print(self.RevDataPackage.RevLen, ', ', self.RevDataPackage.Length)
                 self.LogSignal.emit(MessageClass(self.Name, '接收超时'))
                 self.RevDataPackage.ResetPackage()
 
