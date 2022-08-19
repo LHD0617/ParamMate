@@ -35,7 +35,6 @@ void UART1_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t status,
 	handle->rxDataSize = 1;//！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！珊圻産喝曝海業
 	handle->rxData = &UART1_rx_buffer;//！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！珊圻産喝曝仇峽
 	PM_RevHandle(PM_Param, UART1_rx_buffer);
-//	rt_mb_send(Openart_mailbox, UART3_rx_buffer);
 }
 
 int main(void)
@@ -58,7 +57,7 @@ int main(void)
 	
 	/* ParamMate 塘崔 */
 	PM_ResetWindow();
-	//PM_Image_t* PM_Image = PM_CreateImage(0x00, "MT9V032_Image", Binarization_Type, 60, 90, mt9v03x_csi_image);
+	PM_Image_t* PM_Image = PM_CreateImage(0x00, "MT9V032_Image", Binarization_Type, 120, 188, mt9v03x_csi_image);
 	PM_Waveform_t* PM_Waveform1 = PM_CreateWaveform(0x01,"Speed_PID", SplineSeries_Type, int16_Type);
 	PM_CreateWaveformChannels(PM_Waveform1, "Motor1 TarSpeed", &Motor1.Target_Speed);
 	PM_CreateWaveformChannels(PM_Waveform1, "Motor2 TarSpeed", &Motor2.Target_Speed);
@@ -84,7 +83,7 @@ int main(void)
 		{
 			mt9v03x_csi_finish_flag = 0;
 			gpio_toggle(B9);
-			//PM_SendImageData(PM_Image);
+			PM_SendImageData(PM_Image);
 			PM_SendWaveformData(PM_Waveform1);
 			PM_SendWaveformData(PM_Waveform2);
 		}

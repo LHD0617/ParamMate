@@ -306,7 +306,7 @@ class MyWaveform(QGroupBox):
         """
         if self.SeriesType == 0x00:  # 折线图
             LineSeries = QLineSeries()
-            LineSeries.setUseOpenGL(True)
+            # LineSeries.setUseOpenGL(True)
             LineSeries.setName(Name)
             self.Chart.addSeries(LineSeries)
             self.Chart.addAxis(self.AxisX, Qt.AlignBottom)
@@ -316,7 +316,7 @@ class MyWaveform(QGroupBox):
             self.SeriesList.append(LineSeries)
         if self.SeriesType == 0x01:  # 样条线图
             SplineSeries = QSplineSeries()
-            SplineSeries.setUseOpenGL(True)
+            # SplineSeries.setUseOpenGL(True)
             SplineSeries.setName(Name)
             self.Chart.addSeries(SplineSeries)
             self.Chart.addAxis(self.AxisX, Qt.AlignBottom)

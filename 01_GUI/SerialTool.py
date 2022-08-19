@@ -141,6 +141,23 @@ class UiSerialTool(QGroupBox):
         self.RefreshPortTimer.timeout.connect(self.RefreshPort)
         self.ReceiveTimer.timeout.connect(self.ReceiveData)
 
+    def WriteConfigure(self):
+        with open(SerialToolConfigureFileName, mode='w') as Fp:
+            Fp.write('[SerialToolConfigure]\n')
+            Fp.write('[baud]=%d\n' % self.BaudCbox.currentIndex())
+            Fp.write('[datasize]=%d\n' % self.DataBitCbox.currentIndex())
+            Fp.write('[checkbit]=%d\n' % self.CheckBitCbox.currentIndex())
+            Fp.write('[stopbit]=%d\n' % self.StopBitCbox.currentIndex())
+
+    def ReadConfigure(self):
+        if os.path.exists(SerialToolConfigureFileName):
+            with open(SerialToolConfigureFileName, mode='r') as Fp:
+                DataList = Fp.readlines()
+            self.BaudCbox.setCurrentIndex(int(DataList[1][7:]))
+            self.DataBitCbox.setCurrentIndex(int(DataList[2][11:]))
+            self.CheckBitCbox.setCurrentIndex(int(DataList[3][11:]))
+            self.StopBitCbox.setCurrentIndex(int(DataList[4][10:]))
+
     def RefreshPort(self):
         """
         刷新串口
@@ -226,23 +243,6 @@ class UiSerialTool(QGroupBox):
         :return:
         """
         self.Ser.write(dat)
-
-    def WriteConfigure(self):
-        with open(SerialToolConfigureFileName, mode='w') as Fp:
-            Fp.write('[SerialToolConfigure]\n')
-            Fp.write('[baud]=%d\n' % self.BaudCbox.currentIndex())
-            Fp.write('[datasize]=%d\n' % self.DataBitCbox.currentIndex())
-            Fp.write('[checkbit]=%d\n' % self.CheckBitCbox.currentIndex())
-            Fp.write('[stopbit]=%d\n' % self.StopBitCbox.currentIndex())
-
-    def ReadConfigure(self):
-        if os.path.exists(SerialToolConfigureFileName):
-            with open(SerialToolConfigureFileName, mode='r') as Fp:
-                DataList = Fp.readlines()
-            self.BaudCbox.setCurrentIndex(int(DataList[1][7:]))
-            self.DataBitCbox.setCurrentIndex(int(DataList[2][11:]))
-            self.CheckBitCbox.setCurrentIndex(int(DataList[3][11:]))
-            self.StopBitCbox.setCurrentIndex(int(DataList[4][10:]))
 
 
 if __name__ == '__main__':

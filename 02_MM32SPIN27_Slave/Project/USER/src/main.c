@@ -48,7 +48,7 @@ void UpdateImage(uint16 num)
 			for(k=0;k<8;k++)
 			{
 				if(tft_ascii[16 + num % 10][j] & (0x01 << k))
-					Image[j][(i-1)*8+k] = 1;
+					Image[j][(i-1)*8+k] = 255;
 				else
 					Image[j][(i-1)*8+k] = 0;
 			}
@@ -87,7 +87,7 @@ int main(void)
 		PM_SendImageData(PM_Image[1]);
 		
 		/* ÑÓÊ± */
-		systick_delay_ms(3);
+		systick_delay_ms(10);
 	}
 } 
 
@@ -124,7 +124,7 @@ void Window_init(void)
 	PM_CreateWaveformChannels(PM_Waveform[2], "AccZ", &mpu_acc_z);
 	
 	/* Test_RGB565 ¿Ø¼þ */
-	PM_Image[0] = PM_CreateImage(0x04, "Test_RGB565", Grayscale_Type, 50, 90, Image);
+//	PM_Image[0] = PM_CreateImage(0x04, "Test_RGB565", RGB565_Type, 50, 90, Image);
 	
 	/* Test_Grayscale ¿Ø¼þ */
 	PM_Image[1] = PM_CreateImage(0x05, "Test_Grayscale", Binarization_Type, 50, 90, Image);
