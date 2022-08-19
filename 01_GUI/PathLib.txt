@@ -1,0 +1,46 @@
+----.\
+    |----.idea\
+    |    |----.gitignore
+    |    |----01_GUI.iml
+    |    |----inspectionProfiles\
+    |    |----misc.xml
+    |    |----modules.xml
+    |    |----vcs.xml
+    |    |----workspace.xml
+    |----01_UI\
+    |    |----ImageUI.py
+    |    |----ImageUI.ui
+    |    |----ParamMate_Tools_UI.py
+    |    |----ParamMate_Tools_UI.ui
+    |    |----ParamUI.py
+    |    |----ParamUI.ui
+    |    |----SerialToolUI.py
+    |    |----SerialToolUI.ui
+    |    |----WaveformWidgetUI.py
+    |    |----WaveformWidgetUI.ui
+    |----02_Icon\
+    |    |----1.ico
+    |    |----1.png
+    |    |----2.ico
+    |    |----2.png
+    |    |----MakeIcon.qrc
+    |----CommProt.py
+    |----Icon_rc.py
+    |----Image.py
+    |----MainWindow.py
+    |----MakePathLib.py
+    |----MessageClass.py
+    |----Param.py
+    |----pyinstaller.txt
+    |----requirements.txt
+    |----SerialTool.py
+    |----SerialToolConfigure.ini
+    |----Waveform.py
+    |----__pycache__\
+    |    |----CommProt.cpython-36.pyc
+    |    |----Icon_rc.cpython-36.pyc
+    |    |----Image.cpython-36.pyc
+    |    |----MessageClass.cpython-36.pyc
+    |    |----Param.cpython-36.pyc
+    |    |----SerialTool.cpython-36.pyc
+    |    |----Waveform.cpython-36.pyc
