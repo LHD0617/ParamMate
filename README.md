@@ -14,11 +14,11 @@ ParamMate最大支持：
 
 ### 结构图
 
-![image](04_Document\1.png)
+![image](04_Document/ParamMate通信结构图.png)
 
 ### 预览图
 
-![image](04_Document\2.png)
+![image](04_Document/预览图.png)
 
 ## 2.项目结构
     ----.\
