@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>MM32SPIN27PS</Device>
           <Vendor>MindMotion</Vendor>
-          <PackID>MindMotion.MM32SPIN2x_DFP.1.1.6</PackID>
+          <PackID>MindMotion.MM32SPIN2x_DFP.1.1.4</PackID>
           <PackURL>http://www.mindmotion.com.cn/Download/MDK_KEIL/</PackURL>
           <Cpu>IRAM(0x20000000,0x00003000) IROM(0x08000000,0x00020000) CPUTYPE("Cortex-M0") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -561,11 +561,6 @@
           <GroupName>CODE</GroupName>
           <Files>
             <File>
-              <FileName>ParamMate.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\CODE\ParamMate.lib</FilePath>
-            </File>
-            <File>
               <FileName>ParamMate.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\CODE\ParamMate.h</FilePath>
@@ -574,6 +569,16 @@
               <FileName>PM_CommProt.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\CODE\PM_CommProt.h</FilePath>
+            </File>
+            <File>
+              <FileName>ParamMate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\ParamMate.c</FilePath>
+            </File>
+            <File>
+              <FileName>PM_CommProt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\PM_CommProt.c</FilePath>
             </File>
           </Files>
         </Group>
